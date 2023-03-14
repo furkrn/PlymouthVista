@@ -1,0 +1,9 @@
+images/
+images/*
+prepare_assets/ntoskrnl.exe
+prepare_assets/lucon.ttf
+prepare_assets/temp_dir/
+prepare_assets/temp_dir/*
+ignore/
+ignore/*
+PlymouthXP.script

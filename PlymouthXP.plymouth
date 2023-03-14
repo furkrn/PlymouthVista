@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=PlymouthXP
+Description=PlymouthXP is a boot screen which re-creates the Windows XP start-up sequence.
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/PlymouthXP/images
+ScriptFile=/usr/share/plymouth/themes/PlymouthXP/PlymouthXP.script
