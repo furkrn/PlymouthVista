@@ -3,6 +3,6 @@
 
 echo "Remember to run ./compile before running this script!"
 
-rm -rf /usr/share/plymouth/themes/PlymouthXP
-cp -r $(pwd) /usr/share/plymouth/themes/PlymouthXP
-plymouth-set-default-theme -R PlymouthXP
+rm -rf /usr/share/plymouth/themes/PlymouthVista
+cp -r $(pwd) /usr/share/plymouth/themes/PlymouthVista
+plymouth-set-default-theme -R PlymouthVista

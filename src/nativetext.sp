@@ -1,4 +1,4 @@
-// PlymouthXP
+// PlymouthVista
 // nativetext.sp
 // TODO define actual text region here with sprites (2d array? is it possible with plymouth?)
 // also define convenience functions to print a line to our emulated "terminal" that calculates

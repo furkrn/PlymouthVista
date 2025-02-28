@@ -48,7 +48,7 @@ os.system("wrestool -x ntoskrnl.exe -t 2 -o temp_dir")
 
 # Apply palette to extracted base & progress images
 os.system("mtpaint --cmd -file/open=temp_dir/ntoskrnl.exe_2_1.bmp -palette/load=xp.gpl -file/save")
-os.system("mtpaint --cmd -file/open=temp_dir/ntoskrnl.exe_2_8.bmp -palette/load=xp.gpl -file/save")
+os.system("mtpaint --cmd -file/open=temp_dir/ntoskrnl.exe_2_4.bmp -palette/load=xp.gpl -file/save")
 
 # Process colorized images
 
@@ -66,7 +66,7 @@ main_image.save("../images/base.png")
 # apply to the XP boot screen. When the progress image is scaled, it must
 # have that border so that the edges are fuzzy. If they weren't there, it
 # would have hard edges -- not what we want.
-progress_image = Image.open("temp_dir/ntoskrnl.exe_2_8.bmp").convert("RGBA")
+progress_image = Image.open("temp_dir/ntoskrnl.exe_2_4.bmp").convert("RGBA")
 progress_final_image = Image.new("RGBA", (24, 11), (0, 0, 0))
 progress_final_image.paste(progress_image, (1, 1))
 progress_final_image.save("../images/progress.png")

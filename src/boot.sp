@@ -1,4 +1,4 @@
-// PlymouthXP
+// PlymouthVista
 // boot.sp
 // Defines the standard boot screen class
 

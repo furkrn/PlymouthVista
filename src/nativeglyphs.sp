@@ -1,4 +1,4 @@
-// PlymouthXP
+// PlymouthVista
 // nativeglyphs.sp
 // Defines glyphs for the native mode font
 global.NativeGlyphImg = [];
