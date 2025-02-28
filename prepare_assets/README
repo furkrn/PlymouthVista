@@ -6,11 +6,11 @@ This directory contains an automated utility to do so, "prepare_assets.py", whic
  - mtpaint (http://mtpaint.sourceforge.net/)
  - wrestool (https://www.nongnu.org/icoutils/)
  - Pillow library for Python (https://pypi.org/project/Pillow/)
- - a copy of "ntoskrnl.exe" from a Windows XP installation
- - a copy of "lucon.ttf" from a Windows XP installation
+ - a copy of "ntoskrnl.exe" from a Windows Vista installation
+ - a copy of "lucon.ttf" from a Windows Vista installation
 
 Install the prerequisites (mtpaint, icoutils, Pillow), place the required
-XP files in this directory (ntoskrnl.exe, lucon.ttf), and run prepare_assets.py.
+Vista files in this directory (ntoskrnl.exe, lucon.ttf), and run prepare_assets.py.
 
 The script works by using mtpaint to apply a colour palette to bitmap files extracted from
 ntoskrnl.exe (by wrestool). Then, those image files are automatically modified to add
