@@ -72,20 +72,7 @@ progress_final_image.paste(progress_image, (1, 1))
 progress_final_image.save("../images/progress.png")
 
 # Assemble "native mode" background..
-# We need to convert these images to something Pillow is happy with via mtpaint..
-# Seems re-saving is enough
-os.system("mtpaint --cmd -file/open=temp_dir/ntoskrnl.exe_2_6.bmp -file/as=temp_dir/nheader.bmp")
-os.system("mtpaint --cmd -file/open=temp_dir/ntoskrnl.exe_2_7.bmp -file/as=temp_dir/nfootergrad.bmp")
-
-native_header = Image.open("temp_dir/nheader.bmp").convert("RGBA")
-native_footer_gradient = Image.open("temp_dir/nfootergrad.bmp").convert("RGBA")
-
-native_background = Image.new("RGB", (640, 480), (87, 120, 208))
-native_background_draw = ImageDraw.Draw(native_background)
-
-native_background.paste(native_header, (0, 0))
-native_background.paste(native_footer_gradient, (0, 419))
-native_background_draw.rectangle((0, 422, 640, 480), fill=(0, 48, 152))
+native_background = Image.new("RGB", (640, 480), (0, 0, 0))
 
 native_background.save("../images/native_bg.png")
 
