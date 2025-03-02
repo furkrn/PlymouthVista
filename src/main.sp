@@ -12,16 +12,33 @@
 
 Window.SetBackgroundColor(0, 0, 0);
 
-ScaleFactorX = Window.GetWidth() / 640;
-ScaleFactorY = Window.GetHeight() / 480;
+global.GlobalWidth = Window.GetWidth();
+global.GlobalHeight = Window.GetHeight();
 
-BootScreen = BootScreenNew();
+global.ScaleFactorX = Window.GetWidth() / 640;
+global.ScaleFactorY = Window.GetHeight() / 480;
+
+global.ScaleFactorXAuthui = Window.GetWidth() / 1900;
+global.ScaleFactorYAuthui = Window.GetHeight() / 1200;
+
+BootScreen = 0;
+ShutdownScreen = 0;
+if (Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "resume") {
+	BootScreen = BootScreenNew();
+	Plymouth.SetRefreshRate(12);
+}
+else if (Plymouth.GetMode() == "shutdown") {
+	ShutdownScreen = ShutdownScreenNew();
+	Plymouth.SetRefreshRate(30);
+}
 
 fun RefreshCallback() {
 	if (Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "resume") {
 		BootScreen.Update(BootScreen);
 	}
+	else if (Plymouth.GetMode() == "shutdown") {
+		ShutdownScreen.Update(ShutdownScreen);
+	}
 }
 
-Plymouth.SetRefreshRate(12);
 Plymouth.SetRefreshFunction(RefreshCallback);
