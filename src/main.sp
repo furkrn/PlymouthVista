@@ -33,6 +33,7 @@ else if (Plymouth.GetMode() == "shutdown") {
 }
 else if (Plymouth.GetMode() == "reboot") {
 	ShutdownScreen = ShutdownScreenNew("Rebooting...");
+	Plymouth.SetRefreshRate(30);
 }
 
 fun RefreshCallback() {
