@@ -28,15 +28,18 @@ if (Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "resume") {
 	Plymouth.SetRefreshRate(12);
 }
 else if (Plymouth.GetMode() == "shutdown") {
-	ShutdownScreen = ShutdownScreenNew();
+	ShutdownScreen = ShutdownScreenNew("Shutting down...");
 	Plymouth.SetRefreshRate(30);
+}
+else if (Plymouth.GetMode() == "reboot") {
+	ShutdownScreen = ShutdownScreenNew("Rebooting...");
 }
 
 fun RefreshCallback() {
 	if (Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "resume") {
 		BootScreen.Update(BootScreen);
 	}
-	else if (Plymouth.GetMode() == "shutdown") {
+	else if (Plymouth.GetMode() == "shutdown" || Plymouth.GetMode() == "reboot") {
 		ShutdownScreen.Update(ShutdownScreen);
 	}
 }

@@ -1,7 +1,7 @@
 // PlymouthVista
 // Shutdown screen.
 
-fun ShutdownScreenNew() {
+fun ShutdownScreenNew(text) {
     local.self = [];
 
     self.BaseSprite = Sprite();
@@ -27,7 +27,7 @@ fun ShutdownScreenNew() {
     self.BrandingSprite.SetX((GlobalWidth - self.BrandingImage.GetWidth()) / 2);
     self.BrandingSprite.SetY(GlobalHeight - 96);
 
-    self.Text = Image.Text("Shutting Down...", 1, 1, 1, 1, "Segoe UI 17");
+    self.Text = Image.Text(text, 1, 1, 1, 1, "Segoe UI 17");
     self.TextSprite = Sprite();
 	self.TextSprite.SetImage(self.Text);
 
