@@ -21,28 +21,61 @@ global.ScaleFactorY = Window.GetHeight() / 480;
 global.ScaleFactorXAuthui = Window.GetWidth() / 1900;
 global.ScaleFactorYAuthui = Window.GetHeight() / 1200;
 
+BootManager = 0;
 BootScreen = 0;
 ShutdownScreen = 0;
-if (Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "resume") {
-	BootScreen = BootScreenNew();
-	Plymouth.SetRefreshRate(12);
-}
-else if (Plymouth.GetMode() == "shutdown") {
-	ShutdownScreen = ShutdownScreenNew("Shutting down...");
-	Plymouth.SetRefreshRate(30);
-}
-else if (Plymouth.GetMode() == "reboot") {
-	ShutdownScreen = ShutdownScreenNew("Rebooting...");
-	Plymouth.SetRefreshRate(30);
-}
 
 fun RefreshCallback() {
-	if (Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "resume") {
-		BootScreen.Update(BootScreen);
-	}
-	else if (Plymouth.GetMode() == "shutdown" || Plymouth.GetMode() == "reboot") {
-		ShutdownScreen.Update(ShutdownScreen);
+	if (BootManager == 0) {
+		if (Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "resume") {
+			BootScreen.Update(BootScreen);
+		}
+		else if (Plymouth.GetMode() == "shutdown" || Plymouth.GetMode() == "reboot") {
+			ShutdownScreen.Update(ShutdownScreen);
+		}
 	}
 }
 
-Plymouth.SetRefreshFunction(RefreshCallback);
+fun ShowQuestionDialog(prompt, contents) {
+	if (BootManager == 0) {
+		BootManager = BootManagerNew("Windows Boot Manager", prompt, "Answer");
+	}
+	else {
+		BootManager.UpdateAnswer(BootManager, contents);
+	}
+}
+
+fun ShowPasswordDialog(prompt, bulletCount) {
+	if (BootManager == 0) {
+		BootManager = BootManagerNew("Windows Boot Manager", prompt, "Password");
+	}
+	else {
+		BootManager.UpdateBullets(BootManager, bulletCount);
+	}
+
+}
+
+fun ReturnNormal() {
+    if (Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "resume") {
+		BootScreen = BootScreenNew();
+		Plymouth.SetRefreshRate(12);
+    }
+    else if (Plymouth.GetMode() == "shutdown") {
+	    ShutdownScreen = ShutdownScreenNew("Shutting down...");
+	    Plymouth.SetRefreshRate(30);
+    }
+    else if (Plymouth.GetMode() == "reboot") {
+	    ShutdownScreen = ShutdownScreenNew("Rebooting...");
+	    Plymouth.SetRefreshRate(30);
+    }
+
+	if (BootManager != 0) {
+		BootManager = 0;
+	}
+
+	Plymouth.SetRefreshFunction(RefreshCallback);
+}
+
+Plymouth.SetDisplayNormalFunction(ReturnNormal);
+Plymouth.SetDisplayQuestionFunction(ShowQuestionDialog);
+Plymouth.SetDisplayPasswordFunction(ShowPasswordDialog);
