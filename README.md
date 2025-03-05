@@ -7,7 +7,7 @@ Re-creation of Windows Vista boot screen from its original assets. Designed to b
 
 Special thanks to [blacklightpy](https://github.com/blacklightpy) for literally everything.
 
-Special thanks to [catpswin56](https://gitgud.io/catpswin56/vistathemeplasma) for VTP and accepting my merge request that merges this theme to VTP.
+Special thanks to [catpswin56](https://gitgud.io/catpswin56/vistathemeplasma) for VTP and accepting my merge request that merges this theme to their repository.
 
 This project is a fan-made labor of love that sees absolutely no profit whatsoever, donations or otherwise.
 
@@ -15,27 +15,27 @@ This project is a fan-made labor of love that sees absolutely no profit whatsoev
 
 You will be needing `plymouth` and `plymouth-script` packages to install this theme.
 
-You will be need `Segoe UI` and `Lucida Console` from a Windows installation.
+You will be need `Segoe UI` and `Lucida Console` from a Windows installation. These fonts must be installed as system-wide fonts.
 
 > [!WARNING]
 > This theme is only tested on Fedora Linux and Arch Linux.
 
-1 - Clone this repository.
-2 - Compile script using `compile.sh`.
-3 - Use `install.sh` for installation.
+- Clone this repository.
+- Compile script using `compile.sh`.
+- Use `install.sh` for installation.
 
 You might need to update initramfs again, if you persist flickering systemd messages at boot. Simply use `dracut --force --omit plymouth --regenerate-all --verbose`.
 
 # Features
 
 1- Vista boot:
-[boot](screenshots/boot.gif)
+![boot](screenshots/boot.gif)
 
 2- Shutdown screen:
-[shutdown](screenshots/shutdown.gif)
+![shutdown](screenshots/shutdown.gif)
 
 3- Windows boot manager (Password):
-[password](screenshots/password.gif)
+![password](screenshots/password.gif)
 
 4- Windows Boot Manager (Question):
-[question](screenshots/question.gif)
+![question](screenshots/question.gif)
