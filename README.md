@@ -29,13 +29,13 @@ You might need to update initramfs again, if you persist flickering systemd mess
 # Features
 
 1- Vista boot:
-[boot]("screenshots/boot.gif")
+[boot](screenshots/boot.gif)
 
 2- Shutdown screen:
-[shutdown]("screenshots/shutdown.gif")
+[shutdown](screenshots/shutdown.gif)
 
 3- Windows boot manager (Password):
-[password]("screenshots/password.gif")
+[password](screenshots/password.gif)
 
 4- Windows Boot Manager (Question):
-[question]("screenshots/question.gif")
+[question](screenshots/question.gif)
