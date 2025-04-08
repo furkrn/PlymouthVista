@@ -25,7 +25,7 @@ fun ShutdownScreenNew(text) {
     self.BrandingSprite.SetZ(2);
 
     self.BrandingSprite.SetX((GlobalWidth - self.BrandingImage.GetWidth()) / 2);
-    self.BrandingSprite.SetY(GlobalHeight - 96);
+    self.BrandingSprite.SetY(GlobalHeight - self.BrandingImage.GetHeight() - 23);
 
     self.Text = Image.Text(text, 1, 1, 1, 1, "Segoe UI 17");
     self.TextSprite = Sprite();
@@ -46,7 +46,7 @@ fun ShutdownScreenNew(text) {
         sprite.SetOpacity(0);
         sprite.SetZ(10);
 
-        sprite.SetX(self.TextX - 36);
+        sprite.SetX(self.TextX - 28);
         sprite.SetY((GlobalHeight - imageSpinner.GetHeight()) / 2);
 
         self.Spinners[i] = sprite;
