@@ -31,7 +31,7 @@ fun RefreshCallback() {
 			BootScreen.Update(BootScreen);
 		}
 		else if (Plymouth.GetMode() == "shutdown" || Plymouth.GetMode() == "reboot") {
-			ShutdownScreen.Update(ShutdownScreen);
+			ShutdownScreen.UpdateFade(ShutdownScreen);
 		}
 	}
 }

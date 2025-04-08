@@ -55,26 +55,53 @@ fun ShutdownScreenNew(text) {
     self.SpinnerStep = 0;
     self.LastSpinner = 17;
 
-    self.Opacity = 0;
-    self.Fading = true;
+    self.FadedOpacity = 0;
+    self.Updating = true;
+    self.DelaySteps = 10000;
+    self.CurrentDelayStep = 0;
     self.FadeSteps = 18;
 
-    fun Update(self) {
-        if (Fading == true) { // I don't know plymouth really need this. I hate this... (i fixed opacity issue with this)
-            self.Opacity += (1 / self.FadeSteps);
+    fun UpdateFade(self) {
+        if (self.Updating == true) {
+            self.FadedOpacity += (1 / self.FadeSteps);
         }
 
-        if (self.Opacity >= 1) {
-            self.Fading = false;
-            self.Opacity = 1;
+        if (self.FadedOpacity >= 1) {
+            self.Updating = false;
+            self.FadedOpacity = 1;
         }
 
-        self.BaseSprite.SetOpacity(self.Opacity);
-        self.BrandingSprite.SetOpacity(self.Opacity);
-        self.TextSprite.SetOpacity(self.Opacity);
+        self.SetBackgroundOpacity(self, self.FadedOpacity);
+        self.SetTextOpacity(self, self.FadedOpacity);
+        self.DrawSpinners(self, self.FadedOpacity);
+    }
 
+    fun UpdateDelayed(self) {
+        self.SetBackgroundOpacity(self, 1);
+        self.CurrentDelayStep++;
+
+        if (self.CurrentDelayStep >= self.DelaySteps) {
+            self.Updating = false;
+        }
+
+        if (self.Updating == false) {
+            self.SetTextOpacity(self, 1);
+            self.DrawSpinners(self, 1);
+        }
+    }
+
+    fun SetBackgroundOpacity(self, opaque) {
+        self.BaseSprite.SetOpacity(opaque);
+        self.BrandingSprite.SetOpacity(opaque);
+    }
+
+    fun SetTextOpacity(self, opaque) {
+        self.TextSprite.SetOpacity(opaque);
+    }
+
+    fun DrawSpinners(self, opaque) {
         currentStep = self.Spinners[self.SpinnerStep];
-        currentStep.SetOpacity(self.Opacity);
+        currentStep.SetOpacity(opaque);
         
         lastStep = self.Spinners[self.LastSpinnerStep];
         lastStep.SetOpacity(0);
@@ -87,10 +114,13 @@ fun ShutdownScreenNew(text) {
         else {
             self.SpinnerStep += 1;
         }
-        
     }
 
-    self.Update = Update;
+    self.UpdateFade = UpdateFade;
+    self.UpdateDelayed = UpdateDelayed;
+    self.SetBackgroundOpacity = SetBackgroundOpacity;
+    self.SetTextOpacity = SetTextOpacity;
+    self.DrawSpinners = DrawSpinners;
 
     return self;
 }
