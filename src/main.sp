@@ -31,14 +31,26 @@ fun RefreshCallback() {
 			BootScreen.Update(BootScreen);
 		}
 		else if (Plymouth.GetMode() == "shutdown" || Plymouth.GetMode() == "reboot") {
-			ShutdownScreen.UpdateFade(ShutdownScreen);
+			if (ReadOsState() == "sddm") {
+				ShutdownScreen.UpdateDelayed(ShutdownScreen);
+			}
+			else {
+				ShutdownScreen.UpdateFade(ShutdownScreen);
+			}
 		}
 	}
 }
 
 fun ShowQuestionDialog(prompt, contents) {
 	if (BootManager == 0) {
-		BootManager = BootManagerNew("Windows Boot Manager", prompt, "Answer");
+		val = 0;
+		if (global.OverriddenAnswerMessage != "") {
+			val = global.OverriddenAnswerMessage;
+		}
+		else {
+			val = prompt;
+		}
+		BootManager = BootManagerNew(global.AnswerTitle, prompt, global.AnswerText);
 	}
 	else {
 		BootManager.UpdateAnswer(BootManager, contents);
@@ -47,7 +59,14 @@ fun ShowQuestionDialog(prompt, contents) {
 
 fun ShowPasswordDialog(prompt, bulletCount) {
 	if (BootManager == 0) {
-		BootManager = BootManagerNew("Windows Boot Manager", prompt, "Password");
+		val = 0;
+		if (global.OverriddenPasswordMessage != "") {
+			val = global.OverriddenPasswordMessage;
+		}
+		else {
+			val = prompt;
+		}
+		BootManager = BootManagerNew(global.PasswordTitle, val, global.PasswordText);
 	}
 	else {
 		BootManager.UpdateBullets(BootManager, bulletCount);
@@ -61,11 +80,11 @@ fun ReturnNormal() {
 		Plymouth.SetRefreshRate(12);
     }
     else if (Plymouth.GetMode() == "shutdown") {
-	    ShutdownScreen = ShutdownScreenNew("Shutting down...");
+	    ShutdownScreen = ShutdownScreenNew(global.ShutdownText);
 	    Plymouth.SetRefreshRate(30);
     }
     else if (Plymouth.GetMode() == "reboot") {
-	    ShutdownScreen = ShutdownScreenNew("Rebooting...");
+	    ShutdownScreen = ShutdownScreenNew(global.RebootText);
 	    Plymouth.SetRefreshRate(30);
     }
 
