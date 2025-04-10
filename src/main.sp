@@ -18,7 +18,7 @@ global.GlobalHeight = Window.GetHeight();
 global.ScaleFactorX = Window.GetWidth() / 640;
 global.ScaleFactorY = Window.GetHeight() / 480;
 
-global.ScaleFactorXAuthui = Window.GetWidth() / 1900;
+global.ScaleFactorXAuthui = Window.GetWidth() / 1920;
 global.ScaleFactorYAuthui = Window.GetHeight() / 1200;
 
 BootManager = 0;
