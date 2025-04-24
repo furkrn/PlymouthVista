@@ -1,12 +1,13 @@
 // PlymouthVista
-// Plymouth theme to emulate the Windows Vista boot sequences.
+// Plymouth theme to emulate the Windows Vista and 7 boot sequences and shutdown sequences.
 // 
-// No copyrighted assets are distributed with this project.
-// You must prepare the required assets yourself.
-// This project includes a Python script to automate this process for you.
-// See prepare_assets/README for details.
+// Distributed images are owned by Microsoft Corporation!
 // 
 // "Windows Vista" is a registered trademark of Microsoft Corporation.
+// The author(s) of this software are in no way affiliated with or endorsed by Microsoft Corporation,
+// in any capacity. This project is a fan-made labor of love that sees NO PROFITS WHATSOEVER, donations or otherwise.
+//
+// "Windows 7" is a registered trademark of Microsoft Corporation.
 // The author(s) of this software are in no way affiliated with or endorsed by Microsoft Corporation,
 // in any capacity. This project is a fan-made labor of love that sees NO PROFITS WHATSOEVER, donations or otherwise.
 
@@ -76,8 +77,15 @@ fun ShowPasswordDialog(prompt, bulletCount) {
 
 fun ReturnNormal() {
     if (Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "resume") {
-		BootScreen = BootScreenNew();
+		if (global.UseLegacyBootScreen) { // I will say this multiple times, please don't kill me. This is really needed!
+			BootScreen = LegacyBootScreenNew();
+		}
+		else {
+			BootScreen = SevenBootScreenNew(Plymouth.GetMode());
+		}
+		
 		Plymouth.SetRefreshRate(12);
+
     }
     else if (Plymouth.GetMode() == "shutdown") {
 		text = "";

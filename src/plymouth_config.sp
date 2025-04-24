@@ -10,7 +10,7 @@ global.OsState = "desktop";
 # END_USED_BY_SERVICE
 
 // DO NOT MODIFY THIS SECTION,
-// THIS SECTION IS MANAGED BY A SYSTEMD SERVICE
+// THIS SECTION IS MANAGED BY A SYSTEMD SERVICE (which will be available soon...)
 # START_USED_BY_LOGOFF
 global.SpawnFakeLogoff = 0;
 # END_USED_BY_LOGOFF
@@ -62,6 +62,34 @@ global.RebootText = "Rebooting...";
 // Fake logoff screen text
 // Defaults to "Logging off..."
 global.LogoffText = "Logging off...";
+
+// Use Vista boot which is available even on Windows 11.
+// 1 - Use Vista boot screen
+// 0 - Use 7 boot screen
+global.UseLegacyBootScreen = 0;
+
+// Add shadow effect to shutdown screen text.
+// Set this to true for Windows 7 experience.
+global.UseShadow = true;
+
+// Change the background of the shutdown screen.
+// vista - Use Vista background and branding.
+// 7 - Use 7 background and branding.
+global.AuthuiStyle = "7";
+
+// Displayed text screen when system is booting using Windows 7 boot screen.
+// Defaults to "Starting Windows"
+global.StartingText = "Starting Windows";
+
+// Displayed text screen when system is resuming using Windows 7 boot screen.
+// Defaults to "Resuming Windows";
+global.ResumingText = "Resuming Windows";
+
+// Copyright text of Windows 7 boot screen
+// Defaults to "© Microsoft Corporation"
+global.CopyrightText = "© Microsoft Corporation";
+
+// You can modify Windows 7 boot screen values if you want to do something like Free Ware Sys Starting Windows 9 or something like that...
 
 // !END OF THE MODIFIABLE SECTION
 

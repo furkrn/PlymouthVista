@@ -5,7 +5,7 @@ fun ShutdownScreenNew(text) {
     local.self = [];
 
     self.BaseSprite = Sprite();
-    self.BaseImage = Image("authui.png");
+    self.BaseImage = Image("authui_" + global.AuthuiStyle + ".png");
 
     self.ScaledX = self.BaseImage.GetWidth() * ScaleFactorXAuthui;
     self.ScaledY = self.BaseImage.GetHeight() * ScaleFactorYAuthui;
@@ -17,7 +17,7 @@ fun ShutdownScreenNew(text) {
     self.BaseSprite.SetZ(1);
 
     self.BrandingSprite = Sprite();
-    self.BrandingImage = Image("branding.png");
+    self.BrandingImage = Image("branding_" + global.AuthuiStyle + ".png");
     self.BrandingSprite.SetImage(self.BrandingImage);
 
     // does scaling matter?
@@ -38,6 +38,12 @@ fun ShutdownScreenNew(text) {
 	self.TextSprite.SetZ(3);
     self.TextSprite.SetX(self.TextX);
     self.TextSprite.SetY(self.TextY);
+
+    self.ShadowSprites = [];
+    // Please don't kill me because of this, Plymouth really needs it.
+    if (global.UseShadow == true) {
+        // TODO : Add shadow
+    }
 
     for (i = 0; i < 18; i++) {
         imageSpinner = Image("spinner_" + i + ".png");
@@ -97,6 +103,9 @@ fun ShutdownScreenNew(text) {
 
     fun SetTextOpacity(self, opaque) {
         self.TextSprite.SetOpacity(opaque);
+        if (global.UseShadow == true) {
+            // TODO : Add Shadow...
+        }
     }
 
     fun DrawSpinners(self, opaque) {

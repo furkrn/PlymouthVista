@@ -1,8 +1,8 @@
 // PlymouthVista
-// boot.sp
-// Defines the standard boot screen class
+// bootlegacy.sp
+// Defines the standard Vista (graphicsmodedisabled yes) boot screen class
 
-fun BootScreenNew() {
+fun LegacyBootScreenNew() {
 	local.self = [];
 	
 	self.BaseSprite = Sprite();
