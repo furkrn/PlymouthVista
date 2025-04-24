@@ -17,6 +17,12 @@ You will be needing `plymouth` and `plymouth-script` packages to install this th
 
 You will be need `Segoe UI` and `Lucida Console` from a Windows installation. These fonts must be installed as system-wide fonts.
 
+This theme ships with Windows Vista as default. I will add some stuff on install.sh. But for now, to use Windows 7 look change these values on `src/plymouth_config.sp`:
+- `global.UseLegacyBootScreen` to `0`
+- `global.UseShadow` to `1`
+- `global.AuthuiStyle` = `"7"`
+
+
 > [!WARNING]
 > This theme is only tested on Fedora Linux and Arch Linux.
 
