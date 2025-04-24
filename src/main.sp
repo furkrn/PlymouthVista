@@ -80,7 +80,15 @@ fun ReturnNormal() {
 		Plymouth.SetRefreshRate(12);
     }
     else if (Plymouth.GetMode() == "shutdown") {
-	    ShutdownScreen = ShutdownScreenNew(global.ShutdownText);
+		text = "";
+		if (global.SpawnFakeLogoff) {
+			text = global.LogoffText;
+		}
+		else {
+			text = global.ShutdownText;
+		}
+
+	    ShutdownScreen = ShutdownScreenNew(text);
 	    Plymouth.SetRefreshRate(30);
     }
     else if (Plymouth.GetMode() == "reboot") {
