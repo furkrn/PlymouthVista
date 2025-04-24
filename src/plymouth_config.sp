@@ -66,16 +66,16 @@ global.LogoffText = "Logging off...";
 // Use Vista boot which is available even on Windows 11.
 // 1 - Use Vista boot screen
 // 0 - Use 7 boot screen
-global.UseLegacyBootScreen = 0;
+global.UseLegacyBootScreen = 1;
 
 // Add shadow effect to shutdown screen text.
 // Set this to true for Windows 7 experience.
-global.UseShadow = true;
+global.UseShadow = false;
 
 // Change the background of the shutdown screen.
 // vista - Use Vista background and branding.
 // 7 - Use 7 background and branding.
-global.AuthuiStyle = "7";
+global.AuthuiStyle = "vista";
 
 // Displayed text screen when system is booting using Windows 7 boot screen.
 // Defaults to "Starting Windows"
