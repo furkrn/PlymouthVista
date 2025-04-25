@@ -8,7 +8,11 @@ SCRIPT_PARTS_DIR="./src"
 FILES="bootlegacy.sp boot7.sp bootmgr.sp plymouth_config.sp stringutils.sp shutdown.sp main.sp"
 OUTPUT="PlymouthVista.script"
 
-rm $OUTPUT
+if [[ -f $OUTPUT ]]; then
+    rm $OUTPUT
+fi
+
+
 cd $SCRIPT_PARTS_DIR
 cat $FILES > ../$OUTPUT
 
