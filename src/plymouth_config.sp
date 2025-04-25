@@ -50,18 +50,23 @@ global.OverriddenAnswerMessage = "";
 // Default is "Password"
 global.AnswerText = "Password";
 
+# START_GEN_BLUR
 // Shutdown screen text
-// Defaults to "Shutting Down..."
+// Defaults to "Shutting down..."
+// If you are using Windows 7 variant ("global.UseShadow = 1"), make sure to run gen_blur.sh after modifying this value
 global.ShutdownText = "Shutting down...";
 
 // Reboot screen text
 // Default to "Rebooting..."
-// Windows 7 & Vista displays "Shutting Down..." instead but I think it would be better if it says "Rebooting..." instead.
+// Windows 7 & Vista displays "Shutting down..." instead but I think it would be better if it says "Rebooting..." instead.
+// If you are using Windows 7 variant ("global.UseShadow = 1"), make sure to run gen_blur.sh after modifying this value
 global.RebootText = "Rebooting...";
 
 // Fake logoff screen text
 // Defaults to "Logging off..."
+// If you are using Windows 7 variant ("global.UseShadow = 1"), make sure to run gen_blur.sh after modifying this value
 global.LogoffText = "Logging off...";
+# END_GEN_BLUR
 
 // Use Vista boot which is available even on Windows 11.
 // 1 - Use Vista boot screen
@@ -69,8 +74,9 @@ global.LogoffText = "Logging off...";
 global.UseLegacyBootScreen = 1;
 
 // Add shadow effect to shutdown screen text.
-// Set this to true for Windows 7 experience.
-global.UseShadow = false;
+// 0 - Windows Vista style, no text shadow.
+// 1 - Windows 7 style, show text shadow. 
+global.UseShadow = 0;
 
 // Change the background of the shutdown screen.
 // vista - Use Vista background and branding.
@@ -90,6 +96,7 @@ global.ResumingText = "Resuming Windows";
 global.CopyrightText = "© Microsoft Corporation";
 
 // You can modify Windows 7 boot screen values if you want to do something like Free Ware Sys Starting Windows 9 or something like that...
+// https://crustywindo.ws/w/images/2/2a/Dilshad9-Boot.png
 
 // !END OF THE MODIFIABLE SECTION
 

@@ -89,18 +89,21 @@ fun ReturnNormal() {
     }
     else if (Plymouth.GetMode() == "shutdown") {
 		text = "";
+		blur = "";
 		if (global.SpawnFakeLogoff) {
 			text = global.LogoffText;
+			blur = "blurLogoffText.png";
 		}
 		else {
 			text = global.ShutdownText;
+			blur = "blurShutdownText.png";
 		}
 
-	    ShutdownScreen = ShutdownScreenNew(text);
+	    ShutdownScreen = ShutdownScreenNew(text, blur);
 	    Plymouth.SetRefreshRate(30);
     }
     else if (Plymouth.GetMode() == "reboot") {
-	    ShutdownScreen = ShutdownScreenNew(global.RebootText);
+	    ShutdownScreen = ShutdownScreenNew(global.RebootText, "blurRebootText.png");
 	    Plymouth.SetRefreshRate(30);
     }
 

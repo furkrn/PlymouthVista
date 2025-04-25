@@ -1,7 +1,8 @@
 // PlymouthVista
 // Shutdown screen.
+// shutdown.sp
 
-fun ShutdownScreenNew(text) {
+fun ShutdownScreenNew(text, blurLocation) {
     local.self = [];
 
     self.BaseSprite = Sprite();
@@ -27,7 +28,7 @@ fun ShutdownScreenNew(text) {
     self.BrandingSprite.SetX((GlobalWidth - self.BrandingImage.GetWidth()) / 2);
     self.BrandingSprite.SetY(GlobalHeight - self.BrandingImage.GetHeight() - 23);
 
-    self.Text = Image.Text(text, 1, 1, 1, 1, "Segoe UI 17");
+    self.Text = Image.Text(text, 1, 1, 1, 1, "Segoe UI 18");
     self.TextSprite = Sprite();
 	self.TextSprite.SetImage(self.Text);
 
@@ -35,14 +36,18 @@ fun ShutdownScreenNew(text) {
     self.TextY = (GlobalHeight - self.Text.GetHeight()) / 2;
 
 	self.TextSprite.SetOpacity(0);
-	self.TextSprite.SetZ(3);
+	self.TextSprite.SetZ(4);
     self.TextSprite.SetX(self.TextX);
     self.TextSprite.SetY(self.TextY);
 
-    self.ShadowSprites = [];
-    // Please don't kill me because of this, Plymouth really needs it.
-    if (global.UseShadow == true) {
-        // TODO : Add shadow
+    if (global.UseShadow) {
+        self.ShadowImage = Image(blurLocation);
+        self.ShadowSprite = Sprite();
+        self.ShadowSprite.SetImage(self.ShadowImage);
+        self.ShadowSprite.SetOpacity(0);
+        self.ShadowSprite.SetZ(3);
+        self.ShadowSprite.SetX(self.TextX);
+        self.ShadowSprite.SetY(self.TextY + 1);
     }
 
     for (i = 0; i < 18; i++) {
@@ -52,7 +57,7 @@ fun ShutdownScreenNew(text) {
         sprite.SetOpacity(0);
         sprite.SetZ(10);
 
-        sprite.SetX(self.TextX - 28);
+        sprite.SetX(self.TextX - 8 - imageSpinner.GetWidth());
         sprite.SetY((GlobalHeight - imageSpinner.GetHeight()) / 2);
 
         self.Spinners[i] = sprite;
@@ -103,8 +108,8 @@ fun ShutdownScreenNew(text) {
 
     fun SetTextOpacity(self, opaque) {
         self.TextSprite.SetOpacity(opaque);
-        if (global.UseShadow == true) {
-            // TODO : Add Shadow...
+        if (global.UseShadow) {
+            self.ShadowSprite.SetOpacity(opaque);
         }
     }
 
