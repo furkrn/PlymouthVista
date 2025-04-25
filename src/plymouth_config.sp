@@ -68,6 +68,7 @@ global.RebootText = "Rebooting...";
 global.LogoffText = "Logging off...";
 # END_GEN_BLUR
 
+# START_WIN7_CONFIG
 // Use Vista boot which is available even on Windows 11.
 // 1 - Use Vista boot screen
 // 0 - Use 7 boot screen
@@ -82,6 +83,7 @@ global.UseShadow = 0;
 // vista - Use Vista background and branding.
 // 7 - Use 7 background and branding.
 global.AuthuiStyle = "vista";
+# END_WIN7_CONFIG
 
 // Displayed text screen when system is booting using Windows 7 boot screen.
 // Defaults to "Starting Windows"
