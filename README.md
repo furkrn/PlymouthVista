@@ -5,6 +5,7 @@
 
 # PlymouthVista
 Re-creation of Windows Vista and Windows 7 boot screen and shutdown screen from its original assets. Designed to be used with [VistaThemePlasma](https://gitgud.io/catpswin56/vistathemeplasma), [AeroThemePlasma](https://gitgud.io/wackyideas/AeroThemePlasma).
+
 Special thanks to [blacklightpy](https://github.com/blacklightpy) for the Vista boot screen code.
 
 Special thanks to [catpswin56](https://gitgud.io/catpswin56/vistathemeplasma) for VTP and accepting my merge request that merges this theme to their repository.
