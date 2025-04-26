@@ -4,7 +4,7 @@
 ## "Windows 7" is a registered trademark of Microsoft Corporation. The author(s) of this project are in no way affiliated with Microsoft, and are not endorsed by Microsoft in any way.
 
 # PlymouthVista
-Re-creation of Windows Vista and Windows 7 boot screen and shutdown screen from its original assets. Designed to be used with [VistaThemePlasma](https://gitgud.io/catpswin56/vistathemeplasma), [AeroThemePlasma](https://gitgud.io/wackyideas/AeroThemePlasma).
+Re-creation of Windows Vista and Windows 7 boot screens and shutdown screens from their original assets. Designed to be used with [VistaThemePlasma](https://gitgud.io/catpswin56/vistathemeplasma), [AeroThemePlasma](https://gitgud.io/wackyideas/AeroThemePlasma).
 
 Special thanks to [blacklightpy](https://github.com/blacklightpy) for the Vista boot screen code.
 
@@ -14,12 +14,12 @@ This project is a fan-made labor of love that sees absolutely no profit whatsoev
 
 # Installation
 
-You need `plymouth` and `plymouth-scripts` packages.
-If you want to use Windows 7 variant of this theme, please make sure to install `ImageMagick` for generating blur effect on the shutdown screen.
+You need `plymouth`, `plymouth-scripts` and `plymouth-plugin-script` packages.
+If you want to use the Windows 7 variant of this theme, please make sure to install `ImageMagick` for generating blur effect on the shutdown screen.
 
 You need `Segoe UI` and `Lucida Console` from a Windows installation. These fonts must be installed as system-wide fonts.
 
-If you want to modify some of the text (eg. Show "Starting Linux" instead of "Starting Windows" on Windows 7 boot screen or make your own [Windows 9 boot screen](https://crustywindo.ws/w/images/2/2a/Dilshad9-Boot.png)). Make sure to check `./src/plymouth_config.sp` before running `compile.sh` for ease of finding the configuration section.
+If you want to modify some of the text (e.g. Show "Starting Linux" instead of "Starting Windows" on the Windows 7 boot screen or make your own [Windows 9 boot screen](https://crustywindo.ws/w/images/2/2a/Dilshad9-Boot.png)) make sure to check `./src/plymouth_config.sp` before running `compile.sh` for ease of finding the configuration section.
 
 > [!WARNING]
 > This theme is only tested on Fedora Linux and Arch Linux.
@@ -32,7 +32,7 @@ chmod +x ./compile.sh ; chmod +x ./install.sh
 ./compile.sh ; sudo ./install.sh
 ```
 
-You might need to update initramfs again, if you persist flickering systemd messages at boot. Simply use `dracut --force --omit plymouth --regenerate-all --verbose`. *(At least on my system.)*
+You might need to update initramfs again, if you persist in flickering systemd messages at boot. Simply use `dracut --force --omit plymouth --regenerate-all --verbose`. *(At least on my system.)*
 
 # Features
 

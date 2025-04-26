@@ -11,11 +11,11 @@ then
 fi
 
 if [[ -z "$(command -v plymouth-set-default-theme)" ]]; then
-    echo "Plymouth script is not installed!"
+    echo "Plymouth-scripts package is not installed! Stopping."
     exit 2
 fi
 
-read -p "Would you like to use Windows 7 style (y/n): " THEMESETTING
+read -p "Would you like to use the Windows 7 variant instead of the Windows Vista variant (y/N): " THEMESETTING
 if [[ $THEMESETTING != "${THEMESETTING#[Yy]}" ]]; then
     chmod +x ./gen_blur.sh
     ./gen_blur.sh
@@ -45,9 +45,9 @@ EOF
 fi
 
 echo "Do you want fade in effects in shutdown?"
-echo "1 - Automatic (Fade on desktop, don't fade on SDDM)"
-echo "2 - Always"
-echo "3 - Never"
+echo "1 - Automatic (Fade when shutdown is called from your desktop, don't fade when shutdown is called from SDDM)"
+echo "2 - Always (Fade when shutdown is called from your desktop, fade when shutdown is called from SDDM)"
+echo "3 - Never (Don't fade when shutdown is called from your desktop, don't fade when shutdown is called from SDDM)"
 read -p "Your choice (1/2/3): " INPUT
 
 if [[ $INPUT != 1 ]] && [[ $INPUT != 2 ]] then
@@ -74,7 +74,7 @@ cp -r $(pwd) /usr/share/plymouth/themes/PlymouthVista
 echo "Copied theme."
 
 if [[ $INPUT = 1 ]] then
-    echo "Creating automatic service"
+    echo "Creating automatic services"
     chmod -R 777 /usr/share/plymouth/themes/PlymouthVista/
 
     cp $(pwd)/systemd/system/* /etc/systemd/system
@@ -92,7 +92,7 @@ fi
 echo "Setting plymouth theme as default..."
 plymouth-set-default-theme -R PlymouthVista
 echo "Rebuilt initramfs while changing the Plymouth theme"
-echo "You may persist flickering, interruption by systemd messages, wrong boot screen etc."
+echo "You may persist in flickering, interruption by systemd messages, wrong boot screen etc."
 echo "To solve this problem for some systems, you may need to rebuild initramfs with omitting Plymouth."
 echo "For distros with dracut, simply use:"
 echo "sudo dracut -f --regenerate-all --omit plymouth --verbose"
