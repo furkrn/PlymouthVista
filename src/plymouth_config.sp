@@ -50,6 +50,12 @@ global.OverriddenAnswerMessage = "";
 // Default is "Password"
 global.AnswerText = "Password";
 
+// Defines boot manager screen should be scaled or not
+// Default is "0" because will look weird when scaled
+// 1 - Scale Boot manager screen
+// 0 - Don't scale boot manager screen
+global.ScaleBootManager = 0;
+
 # START_GEN_BLUR
 // Shutdown screen text
 // Defaults to "Shutting down..."

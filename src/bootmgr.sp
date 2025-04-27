@@ -14,8 +14,15 @@
 fun BootManagerNew(title, message, question) {
     local.self = [];
 
-    self.ScaleX = GlobalWidth / 1024;
-    self.ScaleY = GlobalHeight / 768;
+    if (global.ScaleBootManager) {
+        self.ScaleX = GlobalWidth / 1024;
+        self.ScaleY = GlobalHeight / 768;
+    }
+    else {
+        self.ScaleX = 1;
+        self.ScaleY = 1;
+    }
+
 
     self.Background = Image("native_bg.png").Scale(GlobalWidth, GlobalHeight);
     self.BackgroundSprite = Sprite();
