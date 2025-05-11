@@ -51,7 +51,7 @@ echo "3 - Never (Don't fade when shutdown is called from your desktop, don't fad
 read -p "Your choice (1/2/3): " INPUT
 
 if [[ $INPUT != 1 ]] && [[ $INPUT != 2 ]] then
-    $INPUT = 0;
+    INPUT=0;
 fi
 
 sed -i '/# START_USED_BY_INSTALL_SCRIPT_PREF/,/# END_USED_BY_INSTALL_SCRIPT_PREF/{ 
