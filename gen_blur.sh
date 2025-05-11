@@ -2,6 +2,7 @@
 font_size=18
 font="Segoe-UI"
 script_file="PlymouthVista.script"
+
 declare -A config_values
 
 if ! [ -f $script_file ] ; then
@@ -22,6 +23,18 @@ while read -r line; do
     fi
 done <<< "$clean_lines"
 
+config_values["dot"]=".";
+unformattedText=${config_values["UpdateText"]}
+
+for i in {0..100}; do
+    key="Update$i"
+    value=$(echo $unformattedText | sed "s/"%i"/$i/g")
+    echo $value
+    config_values["$key"]="$value"
+done
+
+unset config_values["UpdateText"]
+
 for key in "${!config_values[@]}"; do
     value=${config_values[$key]}
     echo "Generating blur effect for $key : $value"
@@ -29,10 +42,12 @@ for key in "${!config_values[@]}"; do
     dimensions=$(magick -density 96 -font "$font" -pointsize "$font_size" label:"$value" \
     -format "%[fx:w+27]x%[fx:h+27]" info:)
 
+    [[ $key == *"Update"* ]] && pos="center" || pos="northwest"
+
     magick -density 96 -size "$dimensions" xc:none \
       -font "$font" -pointsize "$font_size" \
       -fill "rgba(0,0,0,0.8)" \
-      -gravity northwest \
+      -gravity $pos \
       -annotate +0+1 "$value" \
       -blur 0x2 \
       -channel A -evaluate multiply 0.8 +channel \

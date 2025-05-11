@@ -60,19 +60,33 @@ global.ScaleBootManager = 0;
 // Shutdown screen text
 // Defaults to "Shutting down..."
 // If you are using Windows 7 variant ("global.UseShadow = 1"), make sure to run gen_blur.sh after modifying this value
+// Do not use multiline texts
 global.ShutdownText = "Shutting down...";
 
 // Reboot screen text
 // Default to "Rebooting..."
 // Windows 7 & Vista displays "Shutting down..." instead but I think it would be better if it says "Rebooting..." instead.
 // If you are using Windows 7 variant ("global.UseShadow = 1"), make sure to run gen_blur.sh after modifying this value
+// Do not use multiline texts
 global.RebootText = "Rebooting...";
 
 // Fake logoff screen text
 // Defaults to "Logging off..."
 // If you are using Windows 7 variant ("global.UseShadow = 1"), make sure to run gen_blur.sh after modifying this value
+// Do not use multiline texts
 global.LogoffText = "Logging off...";
+
+// Update screen text
+// Defaults to "Configuring Windows Updates \n %i% complete \n Do not turn off your computer"
+// Use '\n' for newline
+// Use $i for numbers
+// Multilines texts are allowed.
+global.UpdateText = "Configuring Windows Updates \n %i% complete \n Do not turn off your computer";
+
 # END_GEN_BLUR
+
+// Update dot location on update screen...
+global.UpdateDotPosition = 1;
 
 # START_WIN7_CONFIG
 // Use Vista boot which is available even on Windows 11.

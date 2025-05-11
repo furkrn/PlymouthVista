@@ -36,6 +36,36 @@ fun TextWrapper(text, wrapLine, lineLimiter) {
     return requestedText;
 }
 
+fun Format(string, param) {
+    local.requestedText = "";
+    for (i = 0; i < string.Length(); i++) {
+        firstChar = string.CharAt(i);
+        secondChar = string.CharAt(i + 1);
+
+        if (firstChar == "%" && secondChar == "i") {
+            requestedText += param;
+            i += 1;
+        }
+        else
+        {
+            requestedText += firstChar;
+        }
+    }
+
+    return requestedText;
+}
+
+fun CountLines(string) {
+    local.lines = 0;
+    for (i = 0; i < string.Length(); i++) {
+        if (string.CharAt(i) == "\n") {
+            lines++;
+        }
+    }
+
+    return lines;
+}
+
 fun CreateMany(char, times) {
     text = "";
     for (i = 0; i <= times; i++) {
