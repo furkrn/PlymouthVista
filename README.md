@@ -42,10 +42,12 @@ You might need to update initramfs again, if you persist in flickering systemd m
 2- 7 boot:
 ![seven](screenshots/seven.gif)
 
-3- Shutdown & Reboot screens (Vista):
+3- Shutdown & Reboot screens & Update screen (Vista):
+
+*The update screen does not contain the Windows Vista orb like the original one; implementing this feature on Plymouth isn't possible because there's no way that I can get the startup sound working.*
 ![shutdown](screenshots/shutdown.gif)
 
-4- Shutdown & Reboot screens (7):
+4- Shutdown & Reboot screens & Update Screen (7):
 ![seven_shutdown](screenshots/seven_shutdown.gif)
 
 5- Windows boot manager (Password):
