@@ -24,11 +24,8 @@ fun SevenBootScreenNew(status) {
     if (status == "resume") {
         text = global.ResumingText;
     }
-    else if (status == "boot") {
-        text = global.StartingText;
-    }
     else {
-        text = "I'm watching you.";
+        text = global.StartingText;
     }
 
     self.MainText = Image.Text(text, 1, 1, 1, 1, "Segoe UI 18");

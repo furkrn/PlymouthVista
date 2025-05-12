@@ -25,19 +25,25 @@ global.ScaleFactorYAuthui = Window.GetHeight() / 1200;
 BootManager = 0;
 BootScreen = 0;
 ShutdownScreen = 0;
+UpdateScreen = 0;
 
 fun RefreshCallback() {
 	if (BootManager == 0) {
-		if (Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "resume") {
+		mode = Plymouth.GetMode();
+		if (mode == "boot" || mode == "resume" || mode == "firmware_upgrade" || mode == "update") {
 			BootScreen.Update(BootScreen);
+			UpdateScreen.ShowScreen(ShutdownScreen);
 		}
-		else if (Plymouth.GetMode() == "shutdown" || Plymouth.GetMode() == "reboot") {
+		else if (mode == "shutdown" || mode == "reboot") {
 			if (ReadOsState() == "sddm") {
 				ShutdownScreen.UpdateDelayed(ShutdownScreen);
 			}
 			else {
 				ShutdownScreen.UpdateFade(ShutdownScreen);
 			}
+		}
+		else if (mode == "system-upgrade") {
+			UpdateScreen.ShowScreen(UpdateScreen);
 		}
 	}
 }
@@ -75,19 +81,29 @@ fun ShowPasswordDialog(prompt, bulletCount) {
 
 }
 
+fun ShowSystemUpdate(progress)
+{
+	UpdateScreen.ShowScreen(UpdateScreen);
+	UpdateScreen.UpdateText(UpdateScreen, progress);
+}
+
 fun ReturnNormal() {
-    if (Plymouth.GetMode() == "boot" || Plymouth.GetMode() == "resume") {
+	mode = Plymouth.GetMode();
+	// Why are "update" and "firmware_upgrade" modes here? Because,
+	// - Fedora's BGRT theme shows spinner on "firmware_upgrade"
+	// - Fedora's BGRT theme shows spinner on "update"
+    if (mode == "boot" || mode == "resume" || mode == "update" || mode == "firmware_upgrade") {
 		if (global.UseLegacyBootScreen) { // I will say this multiple times, please don't kill me. This is really needed!
 			BootScreen = LegacyBootScreenNew();
 		}
 		else {
-			BootScreen = SevenBootScreenNew(Plymouth.GetMode());
+			BootScreen = SevenBootScreenNew(mode);
 		}
 		
 		Plymouth.SetRefreshRate(12);
 
     }
-    else if (Plymouth.GetMode() == "shutdown") {
+    else if (mode == "shutdown") {
 		text = "";
 		blur = "";
 		if (global.SpawnFakeLogoff) {
@@ -102,10 +118,15 @@ fun ReturnNormal() {
 	    ShutdownScreen = ShutdownScreenNew(text, blur);
 	    Plymouth.SetRefreshRate(30);
     }
-    else if (Plymouth.GetMode() == "reboot") {
+    else if (mode == "reboot") {
 	    ShutdownScreen = ShutdownScreenNew(global.RebootText, "blurRebootText.png");
 	    Plymouth.SetRefreshRate(30);
     }
+	else if (mode == "system-upgrade")
+	{
+		UpdateScreen = UpdateScreenNew(global.UpdateText);
+		Plymouth.SetRefreshRate(30);
+	}
 
 	if (BootManager != 0) {
 		BootManager = 0;
@@ -117,3 +138,4 @@ fun ReturnNormal() {
 Plymouth.SetDisplayNormalFunction(ReturnNormal);
 Plymouth.SetDisplayQuestionFunction(ShowQuestionDialog);
 Plymouth.SetDisplayPasswordFunction(ShowPasswordDialog);
+Plymouth.SetSystemUpdateFunction(ShowSystemUpdate);

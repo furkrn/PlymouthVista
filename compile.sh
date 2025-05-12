@@ -5,7 +5,7 @@
 # for ease of development
 
 SCRIPT_PARTS_DIR="./src"
-FILES="bootlegacy.sp boot7.sp bootmgr.sp plymouth_config.sp stringutils.sp shutdown.sp main.sp"
+FILES="bootlegacy.sp boot7.sp bootmgr.sp plymouth_config.sp stringutils.sp wupdate.sp shutdown.sp main.sp"
 OUTPUT="PlymouthVista.script"
 
 if [[ -f $OUTPUT ]]; then
