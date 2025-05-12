@@ -41,12 +41,13 @@ for key in "${!config_values[@]}"; do
     -format "%[fx:w+27]x%[fx:h+27]" info:)
 
     [[ $key == *"Update"* ]] && pos="center" || pos="northwest"
+    [[ $key == *"Update"* ]] && ofs="+0+0" || ofs="+0+1"
 
     magick -density 96 -size "$dimensions" xc:none \
       -font "$font" -pointsize "$font_size" \
       -fill "rgba(0,0,0,0.8)" \
       -gravity $pos \
-      -annotate +0+1 "$value" \
+      -annotate $ofs "$value" \
       -blur 0x2 \
       -channel A -evaluate multiply 0.8 +channel \
       -trim +repage "./images/blur$key.png"

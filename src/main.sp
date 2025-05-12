@@ -25,7 +25,6 @@ global.ScaleFactorYAuthui = Window.GetHeight() / 1200;
 BootManager = 0;
 BootScreen = 0;
 ShutdownScreen = 0;
-SetupScreen = 0;
 UpdateScreen = 0;
 
 fun RefreshCallback() {
@@ -127,10 +126,6 @@ fun ReturnNormal() {
 	{
 		UpdateScreen = UpdateScreenNew(global.UpdateText);
 		Plymouth.SetRefreshRate(30);
-	}
-	else if (mode == "system-reset")
-	{
-
 	}
 
 	if (BootManager != 0) {

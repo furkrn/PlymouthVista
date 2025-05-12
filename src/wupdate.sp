@@ -51,9 +51,8 @@ fun UpdateScreenNew(baseText) {
         self.CurrentShadowSprite.SetImage(shadow);
         self.CurrentShadowSprite.SetOpacity(0);
         self.CurrentShadowSprite.SetZ(3);
-        self.CurrentShadowSprite.SetX(self.TextX - 4.5);
-        self.CurrentShadowSprite.SetY(self.TextY + 1.7);
-
+        self.CurrentShadowSprite.SetX(self.TextX - 5);
+        self.CurrentShadowSprite.SetY(self.TextY + 1);
     }
 
     for (i = 0; i < 18; i++) {

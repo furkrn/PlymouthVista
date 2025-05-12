@@ -77,11 +77,11 @@ global.RebootText = "Rebooting...";
 global.LogoffText = "Logging off...";
 
 // Update screen text
-// Defaults to "Configuring Windows Updates \n %i% complete \n Do not turn off your computer."
+// Defaults to "Configuring Windows Updates\n%i% complete\nDo not turn off your computer."
 // Use '\n' for newline
 // Use $i for numbers
-// Multilines texts are allowed.
-global.UpdateText = "Configuring Windows Updates \n %i% complete \n Do not turn off your computer.";
+// Multiline texts are allowed.
+global.UpdateText = "Configuring Windows Updates\n%i% complete\nDo not turn off your computer.";
 
 # END_GEN_BLUR
 
