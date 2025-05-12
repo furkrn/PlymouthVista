@@ -35,7 +35,7 @@ fun UpdateScreenNew(baseText) {
     baseText = Image.Text(baseTextString, 1, 1, 1, 1, "Segoe UI 18", "center");
 
     self.TextX = (GlobalWidth - baseText.GetWidth()) / 2 + 36;
-    self.TextY = (GlobalHeight - baseText.GetHeight() * baseTextLine) / 2;
+    self.TextY = (GlobalHeight - baseText.GetHeight()) / 2;
 
     self.CurrentTextSprite = Sprite();
     self.CurrentTextSprite.SetImage(baseText);
@@ -44,12 +44,6 @@ fun UpdateScreenNew(baseText) {
     self.CurrentTextSprite.SetY(self.TextY);
     self.CurrentTextSprite.SetZ(4);
 
-    self.CurrentDotSprite = Sprite();
-    self.CurrentDotSprite.SetImage(Image.Text(".", 1, 1, 1, 1, "Segoe UI 18"));
-    self.CurrentDotSprite.SetZ(4);
-    self.CurrentDotSprite.SetX(self.TextX + baseText.GetWidth());
-    self.CurrentDotSprite.SetY(self.TextY + baseText.GetHeight());
-
     if (global.UseShadow) {
         shadow = Image("blurUpdate0.png");
 
@@ -57,8 +51,9 @@ fun UpdateScreenNew(baseText) {
         self.CurrentShadowSprite.SetImage(shadow);
         self.CurrentShadowSprite.SetOpacity(0);
         self.CurrentShadowSprite.SetZ(3);
-        self.CurrentShadowSprite.SetX(self.TextX - 6);
-        self.CurrentShadowSprite.SetY(self.TextY + 2);
+        self.CurrentShadowSprite.SetX(self.TextX - 4.5);
+        self.CurrentShadowSprite.SetY(self.TextY + 1.7);
+
     }
 
     for (i = 0; i < 18; i++) {
@@ -71,7 +66,12 @@ fun UpdateScreenNew(baseText) {
         sprite.SetZ(10);
 
         sprite.SetX(self.TextX - 8 - imageSpinner.GetWidth());
-        sprite.SetY(self.TextY + baseText.GetHeight() * baseTextLine / 5);
+        if (baseTextLine == 1) {
+            sprite.SetY(self.TextY + imageSpinner.GetHeight() / 3);
+        }
+        else {
+            sprite.SetY(self.TextY + baseTextLine * 2 * imageSpinner.GetHeight() / 3);
+        }
 
         self.Spinners[i] = sprite;
     }
@@ -85,8 +85,10 @@ fun UpdateScreenNew(baseText) {
         self.BaseSprite.SetOpacity(1);
         self.BrandingSprite.SetOpacity(1);
         self.CurrentTextSprite.SetOpacity(1);
+        self.DotSprite.SetOpacity(1);
         if (global.UseShadow) {
             self.CurrentShadowSprite.SetOpacity(1);
+            self.DotShadowSprite.SetOpacity(1);
         }
         
         self.DrawSpinners(self);
@@ -116,21 +118,6 @@ fun UpdateScreenNew(baseText) {
         else {
             self.SpinnerStep += 1;
         }
-    }
-
-    fun DrawDots(self) {
-        mo = self.CurrentDot % 10;
-        if (mo == 1) {
-            self.CurrentDotSprite.SetImage(self.DotTexts[0]);
-        }
-        else if (mo == 5) {
-            self.CurrentDotSprite.SetImage(self.DotTexts[1]);
-        }
-        else if (mo == 9) {
-            self.CurrentDotSprite.SetImage(self.DotTexts[3]);
-        }
-
-        self.CurrentDot++;
     }
 
     self.ShowScreen = ShowScreen;

@@ -77,16 +77,13 @@ global.RebootText = "Rebooting...";
 global.LogoffText = "Logging off...";
 
 // Update screen text
-// Defaults to "Configuring Windows Updates \n %i% complete \n Do not turn off your computer"
+// Defaults to "Configuring Windows Updates \n %i% complete \n Do not turn off your computer."
 // Use '\n' for newline
 // Use $i for numbers
 // Multilines texts are allowed.
-global.UpdateText = "Configuring Windows Updates \n %i% complete \n Do not turn off your computer";
+global.UpdateText = "Configuring Windows Updates \n %i% complete \n Do not turn off your computer.";
 
 # END_GEN_BLUR
-
-// Update dot location on update screen...
-global.UpdateDotPosition = 1;
 
 # START_WIN7_CONFIG
 // Use Vista boot which is available even on Windows 11.

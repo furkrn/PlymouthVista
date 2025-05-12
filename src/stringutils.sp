@@ -56,7 +56,7 @@ fun Format(string, param) {
 }
 
 fun CountLines(string) {
-    local.lines = 0;
+    local.lines = 1;
     for (i = 0; i < string.Length(); i++) {
         if (string.CharAt(i) == "\n") {
             lines++;

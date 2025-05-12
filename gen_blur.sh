@@ -23,7 +23,6 @@ while read -r line; do
     fi
 done <<< "$clean_lines"
 
-config_values["dot"]=".";
 unformattedText=${config_values["UpdateText"]}
 
 for i in {0..100}; do
