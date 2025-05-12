@@ -29,7 +29,6 @@ unformattedText=${config_values["UpdateText"]}
 for i in {0..100}; do
     key="Update$i"
     value=$(echo $unformattedText | sed "s/"%i"/$i/g")
-    echo $value
     config_values["$key"]="$value"
 done
 
