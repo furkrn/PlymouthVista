@@ -10,6 +10,8 @@ Special thanks to [blacklightpy](https://github.com/blacklightpy) for the Vista 
 
 Special thanks to [catpswin56](https://gitgud.io/catpswin56/vistathemeplasma) for VTP and accepting my merge request that merges this theme to their repository.
 
+Special thanks to [wackyideas](https://gitgud.io/wackyideas) for ATP and accepting my merge request that adds this theme to their repository.
+
 This project is a fan-made labor of love that sees absolutely no profit whatsoever, donations or otherwise.
 
 # Installation
