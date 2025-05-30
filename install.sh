@@ -15,6 +15,11 @@ if [[ -z "$(command -v plymouth-set-default-theme)" ]]; then
     exit 2
 fi
 
+if [[ ! -f "PlymouthVista.script" ]]; then
+    echo "Please compile PlymouthVista by running ./compile.sh first."
+    exit 2
+fi
+
 read -p "Would you like to use the Windows 7 variant instead of the Windows Vista variant (y/N): " THEMESETTING
 if [[ $THEMESETTING != "${THEMESETTING#[Yy]}" ]]; then
     chmod +x ./gen_blur.sh
@@ -92,8 +97,3 @@ fi
 echo "Setting plymouth theme as default..."
 plymouth-set-default-theme -R PlymouthVista
 echo "Rebuilt initramfs while changing the Plymouth theme"
-echo "You may persist in flickering, interruption by systemd messages, wrong boot screen etc."
-echo "To solve this problem for some systems, you may need to rebuild initramfs with omitting Plymouth."
-echo "For distros with dracut, simply use:"
-echo "sudo dracut -f --regenerate-all --omit plymouth --verbose"
-echo "At least my system has this issue :("
