@@ -14,7 +14,7 @@ Special thanks to [wackyideas](https://gitgud.io/wackyideas) for ATP and accepti
 
 This project is a fan-made labor of love that sees absolutely no profit whatsoever, donations or otherwise.
 
-# Preresiquite
+# Prerequisites
 
 ## Required Packages:
 You need `plymouth`, (`plymouth-scripts` and `plymouth-plugin-script` may be required, depending on your distro). 
