@@ -1,7 +1,7 @@
 // plymouth_config.sp
 // Plymouth theme configuration
 
-// DO NOT MODIFY THIS SECTION ESPECIALLY IF YOU ARE USING "global.Pref = 1".
+// DO NOT MODIFY THIS SECTION ASPECIALLY IF YOU ARE USING "global.Pref = 1".
 // AVAILABLE VALUES ARE EITHER "sddm" AND "desktop"
 // ssdm - No fade
 // desktop - Fade
@@ -15,6 +15,12 @@ global.OsState = "desktop";
 global.SpawnFakeLogoff = 0;
 # END_USED_BY_LOGOFF
 
+// DO NOT MODIFY THIS SECTION yet,
+// THIS LINE will be MANAGED BY A SYSTEMD SERVICE
+# START_USED_BY_HIBERNATION
+global.ReturnFromHibernation = 0;
+# END_USED_BY_HIBERNATION
+
 // !START OF THE MODIFIABLE SECTION
 
 // 1 - use service
@@ -24,9 +30,6 @@ global.SpawnFakeLogoff = 0;
 # START_USED_BY_INSTALL_SCRIPT_PREF
 global.Pref = 1;
 # END_USED_BY_INSTALL_SCRIPT_PREF
-
-// You can configure Fake logon screen by managing that systemd service!
-// Any value for using that fake logoff screen here won't make sense.
 
 // Title of the password screen, must be a single line and maximum 74 lengths is allowed!
 // Defaults to "Windows Boot Manager"
@@ -86,27 +89,27 @@ global.UpdateText = "Configuring Windows Updates\n%i% complete\nDo not turn off 
 # END_GEN_BLUR
 
 # START_WIN7_CONFIG
-// Use Vista boot which is available even on Windows 11.
+// Use Vista boot screen
 // 1 - Use Vista boot screen
 // 0 - Use 7 boot screen
 global.UseLegacyBootScreen = 1;
 
-// Add shadow effect to shutdown screen text.
+// Adds shadow effect to the shutdown screen text.
 // 0 - Windows Vista style, no text shadow.
 // 1 - Windows 7 style, show text shadow. 
 global.UseShadow = 0;
 
-// Change the background of the shutdown screen.
+// Style of the Shutdown screen.
 // vista - Use Vista background and branding.
 // 7 - Use 7 background and branding.
 global.AuthuiStyle = "vista";
 # END_WIN7_CONFIG
 
-// Displayed text screen when system is booting using Windows 7 boot screen.
+// Sets the Windows 7 boot screen's starting text
 // Defaults to "Starting Windows"
 global.StartingText = "Starting Windows";
 
-// Displayed text screen when system is resuming using Windows 7 boot screen.
+// Sets the Windows 7 boot screen's resuming text
 // Defaults to "Resuming Windows";
 global.ResumingText = "Resuming Windows";
 
@@ -114,7 +117,17 @@ global.ResumingText = "Resuming Windows";
 // Defaults to "© Microsoft Corporation"
 global.CopyrightText = "© Microsoft Corporation";
 
-// You can modify Windows 7 boot screen values if you want to do something like Free Ware Sys Starting Windows 9 or something like that...
+// Sets whether Windows Vista's no GUI resume screen will be used,
+// This only applies when `global.UseLegacyBootScreen` is set to "1".
+// 1 - Use Windows Vista's no GUI resume screen.
+// 0 - Don't use Windows Vista's no GUI resume screen.
+global.UseNoGuiResume = 1;
+
+// Sets Windows Vista's no GUI resume screen's text.
+// Defaults to "Resuming Windows..."
+global.NoGuiResumeText = "Resuming Windows...";
+
+// Want to make your own Windows 9, see this:
 // https://crustywindo.ws/w/images/2/2a/Dilshad9-Boot.png
 
 // !END OF THE MODIFIABLE SECTION
