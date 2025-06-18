@@ -23,7 +23,7 @@ while read -r line; do
     fi
 done <<< "$clean_lines"
 
-unformattedText=${config_values["UpdateText"]}
+unformattedText=${config_values["UpdateTextMTL"]}
 
 for i in {0..100}; do
     key="Update$i"

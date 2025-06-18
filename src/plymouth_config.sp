@@ -1,7 +1,12 @@
 // plymouth_config.sp
 // Plymouth theme configuration
 
-// DO NOT MODIFY THIS SECTION ASPECIALLY IF YOU ARE USING "global.Pref = 1".
+// You are free to modify this file for configuring the theme.
+// But, I'd recommend keeping the original integrity of this file and using pv_conf.sh instead.
+// Simply, compile the theme and run pv_conf.sh to configure.
+#USED_BY_PV_CONF
+
+// DO NOT MODIFY THIS SECTION ESPECIALLY IF YOU ARE USING "global.Pref = 1".
 // AVAILABLE VALUES ARE EITHER "sddm" AND "desktop"
 // ssdm - No fade
 // desktop - Fade
@@ -84,7 +89,7 @@ global.LogoffText = "Logging off...";
 // Use '\n' for newline
 // Use $i for numbers
 // Multiline texts are allowed.
-global.UpdateText = "Configuring Windows Updates\n%i% complete\nDo not turn off your computer.";
+global.UpdateTextMTL = "Configuring Windows Updates\n%i% complete\nDo not turn off your computer.";
 
 # END_GEN_BLUR
 
@@ -131,6 +136,7 @@ global.NoGuiResumeText = "Resuming Windows...";
 // https://crustywindo.ws/w/images/2/2a/Dilshad9-Boot.png
 
 // !END OF THE MODIFIABLE SECTION
+#END_USED_BY_PV_CONF
 
 fun ReadOsState() {
     if (global.Pref == 1) {

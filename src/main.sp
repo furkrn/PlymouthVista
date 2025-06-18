@@ -134,7 +134,7 @@ fun ReturnNormal() {
     }
 	else if (mode == "system-upgrade")
 	{
-		UpdateScreen = UpdateScreenNew(global.UpdateText);
+		UpdateScreen = UpdateScreenNew(global.UpdateTextMTL);
 		Plymouth.SetRefreshRate(30);
 	}
 
