@@ -62,7 +62,7 @@ writeToScript() {
 
     tmp=$(mktemp) || { echo "Failed to create tmp file"; exit 2; }
     sed -e "s/$lineToReplace/$newLine/g" "$SCRIPT_LOCATION" > $tmp || exit 1
-    mv "$tmp" "$SCRIPT_LOCATION"
+    cat $tmp > $SCRIPT_LOCATION
 }
 
 listConfiguration() {
