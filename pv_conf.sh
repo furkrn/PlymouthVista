@@ -143,16 +143,16 @@ findScript() {
     local userDefinedLocation=$1
 
     if [[ -z $userDefinedLocation ]]; then
-        if [[ ! -f $PRIMARY_SCRIPT_LOCATION ]]; then
+        if [[ -f $PRIMARY_SCRIPT_LOCATION ]]; then
+            SCRIPT_LOCATION=$PRIMARY_SCRIPT_LOCATION
+        else
             if [[ ! -f $SECONDARY_SCRIPT_LOCATION ]]; then
                 echo "Specify the file by either using the -i option or compiling the theme or installing the theme."
                 exit 2
             fi
-
+            
             SCRIPT_LOCATION=$SECONDARY_SCRIPT_LOCATION
         fi
-
-        SCRIPT_LOCATION=$PRIMARY_SCRIPT_LOCATION
     else
         if [[ ! -f $userDefinedLocation ]]; then
             echo "Specified file does not exist!"
