@@ -93,6 +93,7 @@ fi
 
 if [[ -n $HIBERNATE_STAT ]]; then
     ./pv_conf.sh -s ReturnFromHibernation -v $HIBERNATE_STAT
+    echo "Updated ReturnFromHibernation to '$HIBERNATE_STAT'"
 fi
 
 if [[ $USE_SESSION_CHECK == 1 ]]; then
@@ -109,4 +110,5 @@ if [[ -n $OS_STATE ]]; then
     fi
 
     ./pv_conf.sh -s OsState -v $OS_STATE
+    echo "Updated OsState to '$OS_STATE'"
 fi
