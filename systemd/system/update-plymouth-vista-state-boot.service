@@ -6,7 +6,7 @@ Before=plymouth-start.service
 [Service]
 Type=oneshot
 StandardOutput=journal
-ExecStart=/usr/share/plymouth/themes/PlymouthVista/plymouth_state_updater.sh --set sddm
+ExecStart=/usr/share/plymouth/themes/PlymouthVista/plymouth_state_updater.sh -s sddm
 RemainAfterExit=no
 
 [Install]

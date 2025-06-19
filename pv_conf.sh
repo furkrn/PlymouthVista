@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SCRIPT_LOCATION=""
-PRIMARY_SCRIPT_LOCATION="$(pwd)/PlymouthVista.script"
+PRIMARY_SCRIPT_LOCATION="/usr/share/plymouth/themes/PlymouthVista/PlymouthVista.script"
 SECONDARY_SCRIPT_LOCATION="$(pwd)/PlymouthVista.script"
 START_SECTION="#USED_BY_PV_CONF"
 END_SECTION="#END_USED_BY_PV_CONF"

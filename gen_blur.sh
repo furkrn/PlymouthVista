@@ -17,7 +17,7 @@ if [[ ! -f "pv_conf.sh" ]]; then
 fi
 
 for key in ${config_keys[@]}; do
-    config_values[$key]=$(./pv_conf.sh -g $key)
+    config_values[$key]=$(./pv_conf.sh -g $key -i $SCRIPT_FILE)
 done
 
 unformattedText=${config_values["UpdateTextMTL"]}
