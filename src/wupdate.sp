@@ -35,7 +35,7 @@ fun UpdateScreenNew(baseText) {
     baseText = Image.Text(baseTextString, 1, 1, 1, 1, "Segoe UI 18", "center");
 
     self.TextX = (GlobalWidth - baseText.GetWidth()) / 2 + 36;
-    self.TextY = (GlobalHeight - baseText.GetHeight()) / 2;
+    self.TextY = (GlobalHeight - baseText.GetHeight()) / 2 - 36;
 
     self.CurrentTextSprite = Sprite();
     self.CurrentTextSprite.SetImage(baseText);
