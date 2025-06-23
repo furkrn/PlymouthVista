@@ -32,7 +32,7 @@ fun ShutdownScreenNew(text, blurLocation) {
     self.TextSprite = Sprite();
 	self.TextSprite.SetImage(self.Text);
 
-    self.TextX = (GlobalWidth - self.Text.GetWidth()) / 2 + 36;
+    self.TextX = (GlobalWidth - self.Text.GetWidth()) / 2;
     self.TextY = (GlobalHeight - self.Text.GetHeight()) / 2 - 36;
 
 	self.TextSprite.SetOpacity(0);
