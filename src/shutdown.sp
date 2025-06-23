@@ -58,7 +58,7 @@ fun ShutdownScreenNew(text, blurLocation) {
         sprite.SetZ(10);
 
         sprite.SetX(self.TextX - 8 - imageSpinner.GetWidth());
-        sprite.SetY((GlobalHeight - imageSpinner.GetHeight()) / 2);
+        sprite.SetY((GlobalHeight - imageSpinner.GetHeight()) / 2 - 36);
 
         self.Spinners[i] = sprite;
     }
