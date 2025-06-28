@@ -112,13 +112,6 @@ fi
 if [[ $SKIP_CONF == 0 ]]; then
     read -p "Would you like to use the Windows 7 variant instead of the Windows Vista variant (y/N): " THEMESETTING
     if [[ $THEMESETTING != "${THEMESETTING#[Yy]}" ]]; then
-        if [[ ! -f "./gen_blur.sh" ]]; then
-            echo "WARNING: Windows 7 blur effect cannot be generated because ./gen_blur.sh does not exist!"
-        else
-            chmod +x ./gen_blur.sh
-            ./gen_blur.sh
-        fi
-
         ./pv_conf.sh -s UseLegacyBootScreen -v 0 -i $COMPILED_SCRIPT
         ./pv_conf.sh -s UseShadow -v 1 -i $COMPILED_SCRIPT
         ./pv_conf.sh -s AuthuiStyle -v 7 -i $COMPILED_SCRIPT
@@ -167,6 +160,15 @@ fi
 
 cp ./lucon_disable_anti_aliasing.conf /etc/fonts/conf.d/10-lucon_disable_anti_aliasing.conf
 echo "Installed Font configuration."
+
+if [[ $(./pv_conf.sh -g UseShadow) == 1 ]]; then
+    if [[ ! -f "./gen_blur.sh" ]]; then
+        echo "WARNING: Windows 7 blur effect cannot be generated because ./gen_blur.sh does not exist!"
+    else
+        chmod +x ./gen_blur.sh
+        ./gen_blur.sh
+    fi
+fi
 
 cp -r $(pwd) $INSTALL_DIR
 echo "The theme is copied to $INSTALL_DIR"
