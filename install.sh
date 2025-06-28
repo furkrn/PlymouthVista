@@ -173,6 +173,7 @@ echo "The theme is copied to $INSTALL_DIR"
 
 if [[ "$HAS_SYSTEMD" == 1 ]]; then
     if [[ $(./pv_conf.sh -g Pref) == 1 ]]; then
+        chmod 777 $INSTALL_DIR/PlymouthVista.script
         echo "Installing fade services..."
         installSystemdServices $SYSTEM_SYSTEMD_SERVICES 0
         installSystemdServices $USER_SYSTEMD_SERVICES 1
@@ -183,6 +184,7 @@ if [[ "$HAS_SYSTEMD" == 1 ]]; then
     fi
 
     if [[ $(./pv_conf.sh -g UseHibernation) == 1 ]]; then
+        chmod 777 $INSTALL_DIR/PlymouthVista.script
         echo "Installing hibernation services..."
         installSystemdServices $HIBERNATE_SYSTEMD_SERVICES 0
     else
