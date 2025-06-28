@@ -8,33 +8,30 @@
 
 // DO NOT MODIFY THIS SECTION ESPECIALLY IF YOU ARE USING "global.Pref = 1".
 // AVAILABLE VALUES ARE EITHER "sddm" AND "desktop"
-// ssdm - No fade
+// sddm - No fade
 // desktop - Fade
-# START_USED_BY_SERVICE
 global.OsState = "desktop";
-# END_USED_BY_SERVICE
 
 // DO NOT MODIFY THIS SECTION,
 // THIS SECTION IS MANAGED BY A SYSTEMD SERVICE (which will be available soon...)
-# START_USED_BY_LOGOFF
 global.SpawnFakeLogoff = 0;
-# END_USED_BY_LOGOFF
 
 // DO NOT MODIFY THIS SECTION yet,
 // THIS LINE will be MANAGED BY A SYSTEMD SERVICE
-# START_USED_BY_HIBERNATION
 global.ReturnFromHibernation = 0;
-# END_USED_BY_HIBERNATION
 
 // !START OF THE MODIFIABLE SECTION
 
 // 1 - use service
 // 2 - always fade
 // anything else - never fade
-
-# START_USED_BY_INSTALL_SCRIPT_PREF
 global.Pref = 1;
-# END_USED_BY_INSTALL_SCRIPT_PREF
+
+// Sets whether hibernation should be used or not.
+// This value is only read by install.sh to add/remove hibernation services.
+// 1 - Use hibernation
+// 0 - Don't use hibernation
+global.UseHibernation = 0;
 
 // Title of the password screen, must be a single line and maximum 74 lengths is allowed!
 // Defaults to "Windows Boot Manager"
@@ -64,7 +61,6 @@ global.AnswerText = "Password";
 // 0 - Don't scale boot manager screen
 global.ScaleBootManager = 0;
 
-# START_GEN_BLUR
 // Shutdown screen text
 // Defaults to "Shutting down..."
 // If you are using Windows 7 variant ("global.UseShadow = 1"), make sure to run gen_blur.sh after modifying this value
@@ -91,9 +87,6 @@ global.LogoffText = "Logging off...";
 // Multiline texts are allowed.
 global.UpdateTextMTL = "Configuring Windows Updates\n%i% complete\nDo not turn off your computer.";
 
-# END_GEN_BLUR
-
-# START_WIN7_CONFIG
 // Use Vista boot screen
 // 1 - Use Vista boot screen
 // 0 - Use 7 boot screen
@@ -108,7 +101,6 @@ global.UseShadow = 0;
 // vista - Use Vista background and branding.
 // 7 - Use 7 background and branding.
 global.AuthuiStyle = "vista";
-# END_WIN7_CONFIG
 
 // Sets the Windows 7 boot screen's starting text
 // Defaults to "Starting Windows"
