@@ -17,12 +17,12 @@ fun NewNoGUIBoot(text) {
     self.NoGuiSprite.SetOpacity(1);
 
     fontSize = 18 * (GlobalHeight / 768);
-    self.ResumeText = Image.Text(global.NoGuiResumeText, 0.5, 0.5, 0.5, 1, "Lucida Console " + fontSize);
-    textY = GlobalHeight - fontSize - 20;
+    self.ResumeText = Image.Text(global.NoGuiResumeText, 0.7, 0.7, 0.7, 1, "Lucida Console " + fontSize);
+    textY = GlobalHeight - 48 * scaleFactorY;
     
     self.ResumeTextSprite = Sprite(self.ResumeText);
     self.ResumeTextSprite.SetZ(1);
-    self.ResumeTextSprite.SetX((GlobalWidth - self.ResumeText.GetWidth()) / 2);
+    self.ResumeTextSprite.SetX((GlobalWidth - selif.ResumeText.GetWidth()) / 2);
     self.ResumeTextSprite.SetY(textY);
 
     for (i = 1; i < 11; i++) {
@@ -34,7 +34,7 @@ fun NewNoGUIBoot(text) {
         resumeBarSprite = Sprite(resumeBarImageScaled);
         resumeBarSprite.SetOpacity(0);
         resumeBarSprite.SetX((GlobalWidth - resumeBarImageScaled.GetWidth()) / 2);
-        resumeBarSprite.SetY(textY - fontSize * 2);
+        resumeBarSprite.SetY(textY - 48 * scaleFactorY);
         resumeBarSprite.SetZ(1);
 
         self.ResumeBars[i - 1] = resumeBarSprite;
