@@ -22,7 +22,7 @@ fun NewNoGUIBoot(text) {
     
     self.ResumeTextSprite = Sprite(self.ResumeText);
     self.ResumeTextSprite.SetZ(1);
-    self.ResumeTextSprite.SetX((GlobalWidth - selif.ResumeText.GetWidth()) / 2);
+    self.ResumeTextSprite.SetX((GlobalWidth - self.ResumeText.GetWidth()) / 2);
     self.ResumeTextSprite.SetY(textY);
 
     for (i = 1; i < 11; i++) {
