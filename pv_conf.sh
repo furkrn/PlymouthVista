@@ -8,24 +8,27 @@ END_SECTION="#END_USED_BY_PV_CONF"
 
 declare -A config_values
 
-readScript() {
-    # This was used before on gen_blur.sh, modified slightly to include quotes.
-
+cleanLines() {
     config_lines=$(sed -n "/$START_SECTION/,/$END_SECTION/p" "$SCRIPT_LOCATION")
-    
     if [[ -z $config_lines ]]; then
         echo "Cannot find configuration section. Stopping!"
         exit 1
     fi
 
-    clean_lines=$(echo "$config_lines" | \
-    sed -e 's|//.*||' -e 's|#.*||' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e '/^$/d')
+    echo "$config_lines" | \
+    sed -e 's|//.*||' -e 's|#.*||' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e '/^$/d'
+}
+
+readScript() {
+    # This was used before on gen_blur.sh, modified slightly to include quotes.
+
+    clean_lines=$(cleanLines)
 
     while IFS= read -r line; do
-        if [[ "$line" =~ ^global\.([[:alnum:]_]+)[[:space:]]*=[[:space:]]*(\"([^\"]*)\"|([^[:space:];]+))[[:space:]]*\;?$ ]]; then
+        if [[ "$line" =~ ^global\.([[:alnum:]_]+)[[:space:]]*=[[:space:]]*(\"((\\\"|[^\"])*)\"|([^[:space:];]+))[[:space:]]*\;?$ ]]; then
             key="${BASH_REMATCH[1]}"
-            if [[ -n "${BASH_REMATCH[2]}" && "${BASH_REMATCH[2]}" == \"*\" ]]; then
-                value="${BASH_REMATCH[2]}" 
+            if [[ -n "${BASH_REMATCH[2]}" ]]; then
+                value="${BASH_REMATCH[2]}"
             else
                 value="${BASH_REMATCH[4]}"
             fi
@@ -34,16 +37,16 @@ readScript() {
     done <<< "$clean_lines"
 }
 
+escapeString() {
+    printf '%s\n' "$1" | sed -e 's/[\/&]/\\&/g'
+}
 
 writeToScript() {
     local key=$1
     local value=$2
     local isString=$3
 
-    config_lines=$(sed -n "/$START_SECTION/,/$END_SECTION/p" "$SCRIPT_LOCATION")
-
-    clean_lines=$(echo "$config_lines" | \
-    sed -e 's|//.*||' -e 's|#.*||' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e '/^$/d')
+    clean_lines=$(cleanLines)
 
     lineToReplace=$(echo "$clean_lines" | \
     grep "global.$key")
@@ -61,7 +64,7 @@ writeToScript() {
     newLine+=';'
 
     tmp=$(mktemp) || { echo "Failed to create tmp file"; exit 2; }
-    sed -e "s/$lineToReplace/$newLine/g" "$SCRIPT_LOCATION" > $tmp || exit 1
+    sed -e "s/$(escapeString "$lineToReplace")/$(escapeString "$newLine")/g" "$SCRIPT_LOCATION" > $tmp || exit 1
     cat $tmp > $SCRIPT_LOCATION
 }
 
@@ -86,6 +89,10 @@ updateConfiguration() {
         isString=1
     fi
 
+    if [[ $isString == 0 && -z $newValue ]]; then
+        newValue=0
+    fi
+
     supportsMultiline=0
     if [[ "$isString" == 1 ]] && echo $key | grep -Eq 'MTL$'; then
         supportsMultiline=1
@@ -100,6 +107,7 @@ updateConfiguration() {
         newValue="${newValue//$'\n'/\\n}"
     fi
 
+    newValue="${newValue//$'"'/'\"'}"
     writeToScript "$key" "$newValue" "$isString"
 }
 
@@ -195,7 +203,7 @@ if [[ $task == "get" ]] && [[ -z $keyArg ]]; then
     exit 1
 fi
 
-if [[ "$task" == "set" && (-z "$keyArg" || -z "$valueToChangeArg") ]]; then
+if [[ "$task" == "set" && -z "$keyArg" ]]; then
     echo "Key and value is required for set operation."
     usage
     exit 1
@@ -209,10 +217,10 @@ case $task in
         listConfiguration
         ;;
     get)
-        readConfiguration $keyArg
+        readConfiguration "$keyArg"
         ;;
     set)
-        updateConfiguration $keyArg $valueToChangeArg
+        updateConfiguration "$keyArg" "$valueToChangeArg"
         ;;
     *)
         usage
