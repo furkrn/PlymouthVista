@@ -1,0 +1,13 @@
+[Unit]
+Description=Change PlymouthVista status to resuming from hibernation.
+DefaultDependencies=no
+Before=systemd-hibernate.service
+
+[Service]
+Type=oneshot
+StandardOutput=journal
+ExecStart=/usr/share/plymouth/themes/PlymouthVista/plymouth_state_updater.sh -H 1
+RemainAfterExit=no
+
+[Install]
+WantedBy=systemd-hibernate.service

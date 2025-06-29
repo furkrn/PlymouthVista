@@ -30,9 +30,8 @@ UpdateScreen = 0;
 fun RefreshCallback() {
 	if (BootManager == 0) {
 		mode = Plymouth.GetMode();
-		if (mode == "boot" || mode == "resume" || mode == "firmware_upgrade" || mode == "update") {
+		if (mode == "boot" || mode == "firmware_upgrade" || mode == "update") {
 			BootScreen.Update(BootScreen);
-			UpdateScreen.ShowScreen(ShutdownScreen);
 		}
 		else if (mode == "shutdown" || mode == "reboot") {
 			if (ReadOsState() == "sddm") {
@@ -92,12 +91,23 @@ fun ReturnNormal() {
 	// Why are "update" and "firmware_upgrade" modes here? Because,
 	// - Fedora's BGRT theme shows spinner on "firmware_upgrade"
 	// - Fedora's BGRT theme shows spinner on "update"
-    if (mode == "boot" || mode == "resume" || mode == "update" || mode == "firmware_upgrade") {
-		if (global.UseLegacyBootScreen) { // I will say this multiple times, please don't kill me. This is really needed!
-			BootScreen = LegacyBootScreenNew();
+    if (mode == "boot" || mode == "update" || mode == "firmware_upgrade") {
+		if (global.UseLegacyBootScreen) {
+			if (global.ReturnFromHibernation && global.UseNoGuiResume) {
+				BootScreen = NewNoGUIBoot();
+			}
+			else {
+				BootScreen = LegacyBootScreenNew();
+			}
+
 		}
 		else {
-			BootScreen = SevenBootScreenNew(mode);
+			if (global.ReturnFromHibernation) {
+				BootScreen = SevenBootScreenNew("resume");
+			}
+			else {
+				BootScreen = SevenBootScreenNew("boot");
+			}
 		}
 		
 		Plymouth.SetRefreshRate(12);
@@ -124,7 +134,7 @@ fun ReturnNormal() {
     }
 	else if (mode == "system-upgrade")
 	{
-		UpdateScreen = UpdateScreenNew(global.UpdateText);
+		UpdateScreen = UpdateScreenNew(global.UpdateTextMTL);
 		Plymouth.SetRefreshRate(30);
 	}
 

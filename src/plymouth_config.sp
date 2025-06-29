@@ -1,124 +1,180 @@
 // plymouth_config.sp
 // Plymouth theme configuration
 
-// DO NOT MODIFY THIS SECTION ESPECIALLY IF YOU ARE USING "global.Pref = 1".
-// AVAILABLE VALUES ARE EITHER "sddm" AND "desktop"
-// ssdm - No fade
-// desktop - Fade
-# START_USED_BY_SERVICE
+// You are free to modify this file for configuring the theme.
+// But, I'd recommend keeping the original integrity of this file and using pv_conf.sh instead.
+// Simply, compile the theme and run pv_conf.sh to configure.
+#USED_BY_PV_CONF
+
+//This key is reserved for fading service. Please don't modify it, especially when you set Pref to 1.
+//Accepted values:
+//sddm: Won't show the fade that is applied to the shutdown and reboot screen.
+//desktop: Will show the fade that is applied to the shutdown and reboot screen.
 global.OsState = "desktop";
-# END_USED_BY_SERVICE
 
-// DO NOT MODIFY THIS SECTION,
-// THIS SECTION IS MANAGED BY A SYSTEMD SERVICE (which will be available soon...)
-# START_USED_BY_LOGOFF
+//This is reserved for the fake logoff screen service, which isn't available yet, lol.
+//Accepted Values:
+//1: Show the logoff screen instead of the shutdown screen.
+//0: Show the shutdown screen instead of the logoff screen.
 global.SpawnFakeLogoff = 0;
-# END_USED_BY_LOGOFF
 
-// !START OF THE MODIFIABLE SECTION
+//Used for whether the hibernation resume screen should be shown or not. Please don't modify it if you use hibernation services.
+//Accepted Values:
+//1: Show hibernation resume screen.
+//0: Show normal boot screen.
+global.ReturnFromHibernation = 0;
 
-// 1 - use service
-// 2 - always fade
-// anything else - never fade
-
-# START_USED_BY_INSTALL_SCRIPT_PREF
+//Pref:
+//Fading preference for the shutdown and reboot screens.
+//Accepted values:
+//1: Use OsState value to determine whether fade should be shown or not on the shutdown and reboot screen.
+//2: Always show the fade.
+//3 - Never show the fade.
 global.Pref = 1;
-# END_USED_BY_INSTALL_SCRIPT_PREF
 
-// You can configure Fake logon screen by managing that systemd service!
-// Any value for using that fake logoff screen here won't make sense.
+//Defines whether hibernation should be used or not.
+//This value is only read by install.sh to add/remove hibernation services.
+//Accepted values:
+//1: Install hibernation services,
+//2: Uninstall hibernation services, if they are present.
+global.UseHibernation = 0;
 
-// Title of the password screen, must be a single line and maximum 74 lengths is allowed!
-// Defaults to "Windows Boot Manager"
+//Title of the password screen
+//Prerequisites:
+//Must be a single line of text,
+//Allowed up to 74 characters.
+//Default value:
+//"Windows Boot Manager"
 global.PasswordTitle = "Windows Boot Manager";
 
-// Message of the password screen. 
-// Default is "" which will write boot messages instead.
+//Overrides the message of the password screen with its value.
+//Prerequisites:
+//Must be a single line of text,
+//Allowed up to 74 characters.
+//Default value:
+//""
 global.OverriddenPasswordMessage = "";
 
-// Password text of the password screen. must be a single line text.
+//Text that is shown above the textbox.
+//
+//Default value:
+//"Password"
 global.PasswordText = "Password";
 
-// Title of the answer screen, must be a single line and maximum 74 lengths is allowed!
+//Title of the password screen
+//Prerequisites:
+//Must be a single line of text,
+//Allowed up to 74 characters.
+//Default value:
+//"Windows Boot Manager"
 global.AnswerTitle = "Windows Boot Manager";
 
-// Message of the question screen. 
-// Default is "" which will write boot messages instead.
+//Overrides the message of the password screen with its value.
+//Prerequisites:
+//Must be a single line of text,
+//Allowed up to 74 characters.
+//Default value:
+//""
 global.OverriddenAnswerMessage = "";
 
-// Password text of the answer screen. must be a single line text.
-// Default is "Password"
+//Text that is shown above the textbox.
+//Default value:
+//"Password"
 global.AnswerText = "Password";
 
-// Defines boot manager screen should be scaled or not
-// Default is "0" because will look weird when scaled
-// 1 - Scale Boot manager screen
-// 0 - Don't scale boot manager screen
+//Defines whether elements in the Boot Manager screen (password and answer screen), such as rectangles and texts, should be scaled or not.
+//Default is set to 0 because the screen may look weird.
+//Accepted values:
+//1: Scale elements.
+//0: Don't scale elements.
 global.ScaleBootManager = 0;
 
-# START_GEN_BLUR
-// Shutdown screen text
-// Defaults to "Shutting down..."
-// If you are using Windows 7 variant ("global.UseShadow = 1"), make sure to run gen_blur.sh after modifying this value
-// Do not use multiline texts
+//Text that is shown when the system is shutting down.
+//Prerequisites:
+//Only a single line of text is allowed. Don't use /n.
+//If you set UseShadow to 1 and modified this key after installation, please consider regenerating the blur effect after modifying.
+//Default value:
+//"Shutting down..."
 global.ShutdownText = "Shutting down...";
 
-// Reboot screen text
-// Default to "Rebooting..."
-// Windows 7 & Vista displays "Shutting down..." instead but I think it would be better if it says "Rebooting..." instead.
-// If you are using Windows 7 variant ("global.UseShadow = 1"), make sure to run gen_blur.sh after modifying this value
-// Do not use multiline texts
+//Text that is shown when the system is rebooting.
+//Both Windows 7 and Windows Vista use Shutting Down... instead of Rebooting... but to make this screen make more sense, you will see Rebooting... as the default value.
+//Prerequisites:
+//Only a single line of text is allowed. Don't use /n.
+//If you set UseShadow to 1 and modified this key after installation, please consider regenerating the blur effect after modifying.
+//Default value:
+//"Rebooting..."
 global.RebootText = "Rebooting...";
 
-// Fake logoff screen text
-// Defaults to "Logging off..."
-// If you are using Windows 7 variant ("global.UseShadow = 1"), make sure to run gen_blur.sh after modifying this value
-// Do not use multiline texts
+//Text that is shown when the fake logoff will be shown.
+//Prerequisites:
+//Only a single line of text is allowed. Don't use /n.
+//If you set UseShadow to 1 and modified this key after installation, please consider regenerating the blur effect after modifying.
+//Default value:
+//"Logging off..."
 global.LogoffText = "Logging off...";
 
-// Update screen text
-// Defaults to "Configuring Windows Updates\n%i% complete\nDo not turn off your computer."
-// Use '\n' for newline
-// Use $i for numbers
-// Multiline texts are allowed.
-global.UpdateText = "Configuring Windows Updates\n%i% complete\nDo not turn off your computer.";
+//Text that is shown when the system is updating.
+//This text supports formatting. Use %i for number.
+//You can also use newline, unlike other screens. Simply use \n for newlines.
+//Prerequisites
+//If you set UseShadow to 1 and modified this key after installation, please consider regenerating the blur effect after modifying.
+//Default Value:
+//"Configuring Windows Updates\n%i% complete\nDo not turn off your computer.
+global.UpdateTextMTL = "Configuring Windows Updates\n%i% complete\nDo not turn off your computer.";
 
-# END_GEN_BLUR
-
-# START_WIN7_CONFIG
-// Use Vista boot which is available even on Windows 11.
-// 1 - Use Vista boot screen
-// 0 - Use 7 boot screen
+//Defines whether the Vista boot screen should be used or not:
+//Accepted values:
+//1 - Use the Vista boot screen.
+//0 - Use the 7 boot screen.
 global.UseLegacyBootScreen = 1;
 
-// Add shadow effect to shutdown screen text.
-// 0 - Windows Vista style, no text shadow.
-// 1 - Windows 7 style, show text shadow. 
+//Defines whether the shadow effect should be applied or not.
+//Modifying this value after installation requires the blur effects to be regenerated. Simply use the `./gen_blur.sh` script for it.
+//Accepted values:
+//1: Windows Vista style, don't show text shadow.
+//0: Windows 7 style, show text shadow.
 global.UseShadow = 0;
 
-// Change the background of the shutdown screen.
-// vista - Use Vista background and branding.
-// 7 - Use 7 background and branding.
+//Sets the background and branding image of the shutdown, reboot, and update screen.
+//Accepted values:
+//"7": Use Windows 7 background and branding.
+//"vista": Use Windows Vista background and branding.
 global.AuthuiStyle = "vista";
-# END_WIN7_CONFIG
 
-// Displayed text screen when system is booting using Windows 7 boot screen.
-// Defaults to "Starting Windows"
+//The text that is displayed on Windows 7 boot screen when the system is starting normally.
+//Default value:
+//"Starting Windows"
 global.StartingText = "Starting Windows";
 
-// Displayed text screen when system is resuming using Windows 7 boot screen.
-// Defaults to "Resuming Windows";
+//The text that is displayed on Windows 7 boot screen when the system is returning from hibernation.
+//Default value:
+//"Resuming Windows"
 global.ResumingText = "Resuming Windows";
 
-// Copyright text of Windows 7 boot screen
-// Defaults to "© Microsoft Corporation"
+//Copyright text of the Windows 7 boot screen that is displayed on bottom center of the screen.
+//Default value:
+//"© Microsoft Corporation"
 global.CopyrightText = "© Microsoft Corporation";
 
-// You can modify Windows 7 boot screen values if you want to do something like Free Ware Sys Starting Windows 9 or something like that...
+//Defines whether Windows Vista's no GUI resume screen will be used or not.
+//This only applies when UseLegacyBootScreen is set to 1.
+//Accepted values:
+//1 - Use Windows Vista's no GUI resume screen.
+//0 - Don't use Windows Vista's no GUI resume screen.
+global.UseNoGuiResume = 1;
+
+//Text that is shown below of the progress bar on the Windows Vista hibernation resume screen.
+//Default value:
+//"Resuming Windows..."
+global.NoGuiResumeText = "Resuming Windows...";
+
+// Want to make your own Windows 9, see this:
 // https://crustywindo.ws/w/images/2/2a/Dilshad9-Boot.png
 
-// !END OF THE MODIFIABLE SECTION
+#END_USED_BY_PV_CONF
 
+// Do not modify this!
 fun ReadOsState() {
     if (global.Pref == 1) {
         if (global.SpawnFakeLogoff) {

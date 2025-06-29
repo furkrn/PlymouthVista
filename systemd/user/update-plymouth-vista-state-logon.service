@@ -5,8 +5,8 @@ DefaultDependencies=no
 [Service]
 Type=oneshot
 StandardOutput=journal
-ExecStart=/usr/share/plymouth/themes/PlymouthVista/plymouth_state_updater.sh --set desktop
-ExecStop=/usr/share/plymouth/themes/PlymouthVista/plymouth_state_updater.sh --set sddm --assume-no-shutdown
+ExecStart=/usr/share/plymouth/themes/PlymouthVista/plymouth_state_updater.sh -s desktop
+ExecStop=/usr/share/plymouth/themes/PlymouthVista/plymouth_state_updater.sh -ns sddm
 RemainAfterExit=yes
 
 [Install]

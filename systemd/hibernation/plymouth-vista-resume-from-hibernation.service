@@ -1,0 +1,13 @@
+[Unit]
+Description=Change PlymouthVista status to normal.
+DefaultDependencies=no
+After=plymouth-quit.service
+
+[Service]
+Type=oneshot
+StandardOutput=journal
+ExecStart=/bin/bash -c "[[ $(/usr/share/plymouth/themes/PlymouthVista/pv_conf.sh -g ReturnFromHibernation) == 1 ]] && /usr/share/plymouth/themes/PlymouthVista/plymouth_state_updater.sh -H 0 || exit 0"
+RemainAfterExit=no
+
+[Install]
+WantedBy=plymouth-quit.service
