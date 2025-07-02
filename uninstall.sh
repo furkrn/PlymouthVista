@@ -62,9 +62,11 @@ if [[ $SKIP_QUESTION == 0 ]]; then
     fi
 fi
 
-if [[ -f "./readplyconf.sh" ]]; then
-    chmod +x ./readplyconf.sh
+if [[ ! -f "./readplyconf.sh" ]]; then
+    echo "echo PlymouthVista" >> readplyconf.sh
 fi
+
+chmod +x ./readplyconf.sh
 
 if [[ $(./readplyconf.sh "Theme") == "PlymouthVista" ]]; then
     if [[ $OLD_THEME_NOT_FOUND == 1 ]]; then
