@@ -50,6 +50,11 @@ if ! plymouth-set-default-theme --list | grep -qe "$OLD_THEME"; then
     OLD_THEME_NOT_FOUND=1
 fi
 
+if [[ $OLD_THEME == "PlymouthVista" ]]; then
+    echo "WARNING: 'OldPlymouthTheme' was set to 'PlymouthVista', your Plymouth theme configuration will reset."
+    OLD_THEME_NOT_FOUND=1
+fi
+
 if [[ $SKIP_QUESTION == 0 ]]; then
     read -p "Are you sure to uninstall PlymouthVista? (y/N): " ANSWER
     if [[ $ANSWER != "${ANSWER#[Nn]}" ]]; then
