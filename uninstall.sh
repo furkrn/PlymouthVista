@@ -62,12 +62,18 @@ if [[ $SKIP_QUESTION == 0 ]]; then
     fi
 fi
 
-if [[ $OLD_THEME_NOT_FOUND == 1 ]]; then
-    echo "Resetting Plymouth theme..."
-    plymouth-set-default-theme -Rr
-else
-    echo "Reverting Plymouth theme to $OLD_THEME."
-    plymouth-set-default-theme -R $OLD_THEME
+if [[ -f "./readplyconf.sh" ]]; then
+    chmod +x ./readplyconf.sh
+fi
+
+if [[ $(./readplyconf.sh "Theme") == "PlymouthVista" ]]; then
+    if [[ $OLD_THEME_NOT_FOUND == 1 ]]; then
+        echo "Resetting Plymouth theme..."
+        plymouth-set-default-theme -Rr
+    else
+        echo "Reverting Plymouth theme to $OLD_THEME."
+        plymouth-set-default-theme -R $OLD_THEME
+    fi
 fi
 
 if [[ -n $(command -v systemctl) ]]; then
