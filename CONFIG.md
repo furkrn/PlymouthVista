@@ -40,16 +40,22 @@ You can also modify `/path/of/the/PlymouthVista/src/plymouth_config.sp`.
 ### SpawnFakeLogoff:
 **This is reserved for the fake logoff screen service,** *which isn't available yet, lol.*
 
-##### Accepted Values:
+##### Accepted values:
 - `1`: Show the logoff screen instead of the shutdown screen.
 - `0`: Show the shutdown screen instead of the logoff screen.
 
 ### ReturnFromHibernation:
 Used for whether the hibernation resume screen should be shown or not. **Please don't modify it if you use hibernation services.**
 
-##### Accepted Values:
+##### Accepted values:
 - `1`: Show hibernation resume screen.
 - `0`: Show normal boot screen.
+
+### OldPlymouthTheme
+This key is reserved for the uninstallation script, which will revert to the previous Plymouth theme.
+
+##### Default value:
+`""`
 
 ### Pref:
 Fading preference for the shutdown and reboot screens.

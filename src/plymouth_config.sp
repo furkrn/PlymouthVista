@@ -24,6 +24,9 @@ global.SpawnFakeLogoff = 0;
 //0: Show normal boot screen.
 global.ReturnFromHibernation = 0;
 
+//This key is reserved for the uninstallation script, which will revert to the previous Plymouth theme.
+global.OldPlymouthTheme = "";
+
 //Pref:
 //Fading preference for the shutdown and reboot screens.
 //Accepted values:
