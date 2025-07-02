@@ -10,7 +10,7 @@ For keys, refer to [this section of this documentation.](#keys)
 - Run `./pv_conf.sh -l` to verify if it shows anything. This command displays every key and value pair from your compiled script.
 - To get the value of a key, use `./pv_conf.sh -g {key}` to display the value of the key.
 - To modify the value of a key, use `./pv_conf.sh -g {key} -v {value}`, which will modify the value of the key.
-- After you've finished the configuration and want to install the theme, you may want to pass the `-s` or `--skip-config` option to skip questions that are related to basic configuration.
+- After you've finished the configuration and want to install the theme, you may want to pass the `-s` option to skip questions that are related to basic configuration.
 
 
 ## Configuring by modifying the source:
@@ -26,7 +26,7 @@ You can also modify `/path/of/the/PlymouthVista/src/plymouth_config.sp`.
 - - `global.KeepTheKey = "modify here";` 
 - - `global.KeepTheKeyAndModifyTheIntegerOnly = 1;`
 - Then, run `./compile.sh`.
-- After that, install the theme with `install.sh`. You may also want to pass the `-s` or `--skip-config` option to skip questions that are related to basic configuration.
+- After that, install the theme with `install.sh`. You may also want to pass the `-s` option to skip questions that are related to basic configuration.
 
 # Keys:
 
@@ -40,16 +40,22 @@ You can also modify `/path/of/the/PlymouthVista/src/plymouth_config.sp`.
 ### SpawnFakeLogoff:
 **This is reserved for the fake logoff screen service,** *which isn't available yet, lol.*
 
-##### Accepted Values:
+##### Accepted values:
 - `1`: Show the logoff screen instead of the shutdown screen.
 - `0`: Show the shutdown screen instead of the logoff screen.
 
 ### ReturnFromHibernation:
 Used for whether the hibernation resume screen should be shown or not. **Please don't modify it if you use hibernation services.**
 
-##### Accepted Values:
+##### Accepted values:
 - `1`: Show hibernation resume screen.
 - `0`: Show normal boot screen.
+
+### OldPlymouthTheme
+This key is reserved for the uninstallation script, which will revert to the previous Plymouth theme.
+
+##### Default value:
+`""`
 
 ### Pref:
 Fading preference for the shutdown and reboot screens.

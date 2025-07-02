@@ -7,6 +7,10 @@ INSTALL_DIR="/usr/share/plymouth/themes/PlymouthVista"
 HAS_SYSTEMD=1
 COMPILED_SCRIPT="$(pwd)/PlymouthVista.script"
 SKIP_CONF=0
+SKIP_FINAL_QUESTION=0
+NO_APPLY=0
+COPY_OLD_CONF=0
+OVERWRITE=0
 
 installSystemdServices() {
     local serviceInstallDirectory=$1
@@ -43,13 +47,13 @@ tryUninstallSystemdServices() {
     for f in $serviceInstallDirectory/*.service; do
         serviceName=$(basename $f)
         if [[ $asUserService == 1 ]]; then
-            if systemctl --user -M $SUDO_USER@ list-units | grep -qe $serviceName; then
+            if [[ $(systemctl --user -M $SUDO_USER@ is-enabled $serviceName) == "enabled" ]]; then
                 systemctl --user -M $SUDO_USER@ disable $serviceName
             fi
 
             fullServicePath=/etc/systemd/user/$serviceName
         else
-            if systemctl list-units | grep -qe $serviceName; then
+            if [[ $(systemctl is-enabled $serviceName) == "enabled" ]]; then
                 systemctl disable $serviceName
             fi
 
@@ -62,13 +66,54 @@ tryUninstallSystemdServices() {
     done
 }
 
+copyOldConfiguration() {
+    echo "Copying old configuration..."
+    lines=$(./pv_conf.sh -l -i $INSTALL_DIR/PlymouthVista.script || return)
+    while read -r line; do
+        key=$(echo $line | awk '{print $1}')
+        value=$(./pv_conf.sh -g $key)
+        ./pv_conf.sh -s $key -v "$value" -i $COMPILED_SCRIPT
+    done <<< "$lines"
+    echo "Done."
+}
+
+usage() {
+    echo "  Collection of available arguments:"
+    echo "  -h : Displays this message."
+    echo "  -s : Skips configuration-related questions, such as switching to Windows 7 mode."
+    echo "  -u : Copies your older configuration."
+    echo "  -n : Keeps your current Plymouth configuration by not applying PlymouthVista as the default Plymouth theme."
+    echo "  -o : Overwrites if an existing installation exits. Only skips the overwrite question!"
+    echo "  -q : Skips the final question, which asks about whether you should use that configuration or not."
+}
+
 if [[ -z "$(command -v systemctl)" ]]; then
     HAS_SYSTEMD=0
 fi
 
-if [[ $1 == "--skip-config" ]] || [[ $1 == "-s" ]]; then
-    SKIP_CONF=1
-fi
+while getopts suqnoh op; do
+    case $op in
+        s)
+            SKIP_CONF=1
+            ;;
+        u)
+            COPY_OLD_CONF=1
+            ;;
+        q)
+            SKIP_FINAL_QUESTION=1
+            ;;
+        n)
+            NO_APPLY=1
+            ;;
+        o)
+            OVERWRITE=1
+            ;;
+        h | *)
+            usage
+            exit 0
+            ;;
+    esac
+done
 
 if [[ "$EUID" != 0 ]]; then
     echo "You need to run this script as root."
@@ -93,9 +138,15 @@ if [[ ! -f $COMPILED_SCRIPT ]]; then
 fi
 
 if plymouth-set-default-theme --list | grep -qe "PlymouthVista" || [ -d $INSTALL_DIR ]; then
-    read -p "PlymouthVista is already installed, Do you want to overwrite it? (y/N): " ANSWER
-    if [[ $ANSWER == "${ANSWER#[Yy]}" ]]; then
-        exit 2;
+    if [[ $OVERWRITE == 0 ]]; then
+        read -p "PlymouthVista is already installed, Do you want to overwrite it? (y/N): " ANSWER
+        if [[ $ANSWER == "${ANSWER#[Yy]}" ]]; then
+            exit 2;
+        fi
+    fi
+
+    if [[ $COPY_OLD_CONF == 1 ]]; then
+        copyOldConfiguration
     fi
 
     rm -rf $INSTALL_DIR
@@ -110,7 +161,7 @@ if ! fc-list | grep -qe "Lucida Console"; then
 fi
 
 if [[ $SKIP_CONF == 0 ]]; then
-    read -p "Would you like to use the Windows 7 variant instead of the Windows Vista variant (y/N): " THEMESETTING
+    read -p "Would you like to use the Windows 7 mode instead of the Windows Vista mode (y/N): " THEMESETTING
     if [[ $THEMESETTING != "${THEMESETTING#[Yy]}" ]]; then
         ./pv_conf.sh -s UseLegacyBootScreen -v 0 -i $COMPILED_SCRIPT
         ./pv_conf.sh -s UseShadow -v 1 -i $COMPILED_SCRIPT
@@ -149,13 +200,26 @@ if [[ $SKIP_CONF == 0 ]]; then
     fi
 fi
 
-./pv_conf.sh -l -i $COMPILED_SCRIPT
-read -p "Do you want to continue with this configuration? (Y/n): " ANSWER
-if [[ $ANSWER != "${ANSWER#[Nn]}" ]]; then
-    echo "Your answers is saved into the PlymouthVista.script."
-    echo "To configure your PlymouthVista.script, use the ./pv_conf.sh script to configure it.,"
-    echo "Then, start this script back with the -s option to skip questions to prevent overwriting back to your configuration."
-    exit 0
+if [[ $SKIP_FINAL_QUESTION == 0 ]]; then
+    ./pv_conf.sh -l -i $COMPILED_SCRIPT
+    read -p "Do you want to continue with this configuration? (Y/n): " ANSWER
+    if [[ $ANSWER != "${ANSWER#[Nn]}" ]]; then
+        echo "Your answers is saved into the PlymouthVista.script."
+        echo "To configure your PlymouthVista.script, use the ./pv_conf.sh script to configure it.,"
+        echo "Then, start this script back with the -s option to skip questions to prevent overwriting back to your configuration."
+        exit 0
+    fi
+fi
+
+if [[ -z $(./pv_conf.sh -g OldPlymouthTheme) ]]; then
+    echo "Retrieving the old Plymouth theme, because 'OldPlymouthTheme' wasn't set"
+    oldTheme="bgrt"
+    if [[ -f ."/readplyconf.sh" ]]; then
+        chmod +x ./readplyconf.sh
+        oldTheme=$(./readplyconf.sh Theme)
+    fi
+
+    ./pv_conf.sh -s OldPlymouthTheme -v "$oldTheme" -i ./PlymouthVista.script
 fi
 
 cp ./lucon_disable_anti_aliasing.conf /etc/fonts/conf.d/10-lucon_disable_anti_aliasing.conf
@@ -196,6 +260,8 @@ if [[ "$HAS_SYSTEMD" == 1 ]]; then
 
 fi
 
-echo "Setting plymouth theme as default..."
-plymouth-set-default-theme -R PlymouthVista
+if [[ $NO_APPLY == 0 ]]; then
+    echo "Setting plymouth theme as default..."
+    plymouth-set-default-theme -R PlymouthVista
+fi
 echo "Done."

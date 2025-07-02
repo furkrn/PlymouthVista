@@ -47,6 +47,14 @@ Clone this repository first by simply using `git clone https://github.com/furkrn
 
 If you want to modify some of the text (e.g., show "Starting Linux" instead of "Starting Windows" on the Windows 7 boot screen or make your own [Windows 9 boot screen](https://crustywindo.ws/w/images/2/2a/Dilshad9-Boot.png)), please follow the [configuration guide](./CONFIG.md).
 
+Also here are the available switches/arguments you can use on the install script:
+- -h : Displays the help message.
+- -s : Skips configuration-related questions, such as switching to Windows 7 mode.
+- -u : Copies your older configuration.
+- -n : Keeps your current Plymouth configuration by not applying PlymouthVista as the default Plymouth theme.
+- -o : Overwrites if an existing installation exits. Only skips the overwrite question!
+- -q : Skips the final question, which asks about whether you should use that configuration or not.
+
 > [!WARNING]
 > This theme is only tested on Fedora Linux and Arch Linux.
 
@@ -57,6 +65,14 @@ git clone https://github.com/furkrn/PlymouthVista
 cd PlymouthVista
 chmod +x ./compile.sh ; chmod +x ./install.sh
 ./compile.sh ; sudo ./install.sh
+```
+
+# Uninstallation:
+Simply run the provided `./uninstall.sh` script. Removes every configuration and service and reverts back to your old Plymouth theme.
+
+This copy-paste script should help it:
+```sh
+chmod +x ./uninstall.sh ; sudo ./uninstall.sh
 ```
 
 # Features
