@@ -6,6 +6,11 @@ USER_SYSTEMD_SERVICES=("update-plymouth-vista-state-logon.service")
 SYSTEM_SYSTEMD_SERVICES=("update-plymouth-vista-state-boot.service" "update-plymouth-vista-state-quit.service" "plymouth-vista-hibernate.service" "plymouth-vista-resume-from-hibernation.service")
 SKIP_QUESTION=0
 OLD_THEME_NOT_FOUND=0
+RUN_USER="$SUDO_USER"
+
+if [[ -z $USER ]]; then
+    RUN_USER=$(logname)
+fi
 
 if [[ $1 == "-y" ]]; then
     SKIP_QUESTION=1
@@ -81,8 +86,8 @@ fi
 if [[ -n $(command -v systemctl) ]]; then
     echo "Removing systemd services..."
     for userService in "${USER_SYSTEMD_SERVICES[@]}"; do
-        if [[ $(systemctl --user -M $SUDO_USER@ is-enabled "$userService") == "enabled" ]]; then
-            systemctl --user -M $SUDO_USER@ disable $userService
+        if [[ $(systemctl --user -M $RUN_USER@ is-enabled "$userService") == "enabled" ]]; then
+            systemctl --user -M $RUN_USER@ disable $userService
         fi
         serviceLocation="/etc/systemd/user/$userService"
         if [[ -f $serviceLocation ]]; then

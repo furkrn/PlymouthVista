@@ -11,6 +11,7 @@ SKIP_FINAL_QUESTION=0
 NO_APPLY=0
 COPY_OLD_CONF=0
 OVERWRITE=0
+RUN_USER="$SUDO_USER"
 
 installSystemdServices() {
     local serviceInstallDirectory=$1
@@ -28,7 +29,7 @@ installSystemdServices() {
     for f in $serviceInstallDirectory/*.service; do
         serviceName=$(basename $f)
         if [[ $asUserService == 1 ]]; then
-            systemctl --user -M $SUDO_USER@ enable $serviceName
+            systemctl enable --user -M $RUN_USER@ $serviceName
         else
             systemctl enable $serviceName
         fi
@@ -47,8 +48,8 @@ tryUninstallSystemdServices() {
     for f in $serviceInstallDirectory/*.service; do
         serviceName=$(basename $f)
         if [[ $asUserService == 1 ]]; then
-            if [[ $(systemctl --user -M $SUDO_USER@ is-enabled $serviceName) == "enabled" ]]; then
-                systemctl --user -M $SUDO_USER@ disable $serviceName
+            if [[ $(systemctl --user -M $RUN_USER@ is-enabled $serviceName) == "enabled" ]]; then
+                systemctl disable --user -M $RUN_USER@ $serviceName
             fi
 
             fullServicePath=/etc/systemd/user/$serviceName
@@ -86,6 +87,10 @@ usage() {
     echo "  -o : Overwrites if an existing installation exits. Only skips the overwrite question!"
     echo "  -q : Skips the final question, which asks about whether you should use that configuration or not."
 }
+
+if [[ -z $RUN_USER ]]; then
+    RUN_USER=$(logname)
+fi
 
 if [[ -z "$(command -v systemctl)" ]]; then
     HAS_SYSTEMD=0
