@@ -8,7 +8,7 @@ SKIP_QUESTION=0
 OLD_THEME_NOT_FOUND=0
 RUN_USER="$SUDO_USER"
 
-if [[ -z $USER ]]; then
+if [[ -z $RUN_USER ]]; then
     RUN_USER=$(logname)
 fi
 
