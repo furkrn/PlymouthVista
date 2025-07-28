@@ -67,6 +67,12 @@ chmod +x ./compile.sh ; chmod +x ./install.sh
 ./compile.sh ; sudo ./install.sh
 ```
 
+> [!WARNING]
+> If you have issues such as flickering, [the wrong copyright symbol](https://github.com/furkrn/PlymouthVista/issues/7), etc.
+> Consider one of these solutions, which can be used only with dracut:
+> 1. Use the provided `omitPlymouth.sh` script, which omits the `plymouth` module **permanently**.
+> 2. Use the `sudo dracut —force —regenerate-all —omit plymouth —verbose` command. **But this command must be run after each kernel update.**
+
 # Uninstallation:
 Simply run the provided `./uninstall.sh` script. Removes every configuration and service and reverts back to your old Plymouth theme.
 
