@@ -223,7 +223,7 @@ if [[ $SKIP_CONF == 0 ]]; then
             ./pv_conf.sh -s BootSlowdown -v 0 -i $COMPILED_SCRIPT
         fi
     else
-        echo "Skipping hibernation and boot slow down question. These feature relies on Systemd."
+        echo "Skipping the hibernation and slowing down the boot questions. These features rely on systemd."
     fi
 fi
 
