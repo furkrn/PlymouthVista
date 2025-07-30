@@ -1,0 +1,12 @@
+[Unit]
+Description=Waits for Plymouth animation to finish
+Before=plymouth-quit.service display-manager.service
+
+[Service]
+Type=oneshot
+StandardOutput=journal
+ExecStart=/bin/bash -c '/usr/bin/sleep "$(/usr/share/plymouth/themes/PlymouthVista/pv_conf.sh -g BootSlowdown)"'
+RemainAfterExit=no
+
+[Install]
+WantedBy=plymouth-start.service

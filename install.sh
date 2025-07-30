@@ -3,6 +3,7 @@
 USER_SYSTEMD_SERVICES="$(pwd)/systemd/user"
 SYSTEM_SYSTEMD_SERVICES="$(pwd)/systemd/system"
 HIBERNATE_SYSTEMD_SERVICES="$(pwd)/systemd/hibernation"
+SLOWDOWN_SYSTEMD_SERVICES="$(pwd)/systemd/slowdown"
 INSTALL_DIR="/usr/share/plymouth/themes/PlymouthVista"
 HAS_SYSTEMD=1
 COMPILED_SCRIPT="$(pwd)/PlymouthVista.script"
@@ -76,6 +77,20 @@ copyOldConfiguration() {
         ./pv_conf.sh -s $key -v "$value" -i $COMPILED_SCRIPT
     done <<< "$lines"
     echo "Done."
+}
+
+askSlowdownQuestion() {
+    local -n returnValue=$1
+    while true; do
+        read -p "Set your timeout in seconds: " TIMEOUT
+        if [[ "$TIMEOUT" =~ [0-9]+ ]]; then
+            read -p "Are you sure to slow down your boot time to $TIMEOUT second(s) (y/N): " ANSWER
+            if [[ $ANSWER != "${ANSWER#[Yy]}" ]]; then
+                returnValue="$TIMEOUT"
+                break
+            fi
+        fi
+    done
 }
 
 usage() {
@@ -200,8 +215,15 @@ if [[ $SKIP_CONF == 0 ]]; then
         if [[ $ANSWER != "${ANSWER#[Yy]}" ]]; then
             ./pv_conf.sh -s UseHibernation -v 1 -i $COMPILED_SCRIPT
         fi
+
+        read -p "Do you want to slow down your boot? (y/N): " ANSWER
+        if [[ $ANSWER != "${ANSWER#[Yy]}" ]]; then
+            askSlowdownQuestion timeout && ./pv_conf.sh -s BootSlowdown -v $timeout -i $COMPILED_SCRIPT
+        else
+            ./pv_conf.sh -s BootSlowdown -v 0 -i $COMPILED_SCRIPT
+        fi
     else
-        echo "Skipping hibernation question. This feature relies on Systemd."
+        echo "Skipping hibernation and boot slow down question. These feature relies on Systemd."
     fi
 fi
 
@@ -261,6 +283,11 @@ if [[ "$HAS_SYSTEMD" == 1 ]]; then
     else
         echo "Uninstalling hibernation services if they are still present..."
         tryUninstallSystemdServices $HIBERNATE_SYSTEMD_SERVICES 0
+    fi
+
+    if [[ $(./pv_conf.sh -g BootTime) != 0 ]]; then
+        echo "Installing boot slow down systemd services..."
+        installSystemdServices $SLOWDOWN_SYSTEMD_SERVICES 0
     fi
 
 fi

@@ -216,3 +216,10 @@ This only applies when `UseLegacyBootScreen` is set to `1`.
 Text that is shown below of the progress bar on the Windows Vista hibernation resume screen.
 ##### Default value:
 `"Resuming Windows..."`
+
+### BootSlowdown
+Slows down your boot in seconds.
+Works when the plymouth-vista-slow-boot-animation.service is enabled.
+If you don't want to slow down your boot time, keep this value as 0.
+##### Default value:
+`0`
