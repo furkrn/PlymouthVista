@@ -3,7 +3,7 @@ INSTALL_DIR="/usr/share/plymouth/themes/PlymouthVista"
 CURRENT_DIR=$(pwd)
 OLD_THEME="bgrt"
 USER_SYSTEMD_SERVICES=("update-plymouth-vista-state-logon.service")
-SYSTEM_SYSTEMD_SERVICES=("update-plymouth-vista-state-boot.service" "update-plymouth-vista-state-quit.service" "plymouth-vista-hibernate.service" "plymouth-vista-resume-from-hibernation.service")
+SYSTEM_SYSTEMD_SERVICES=("update-plymouth-vista-state-boot.service" "update-plymouth-vista-state-quit.service" "plymouth-vista-hibernate.service" "plymouth-vista-resume-from-hibernation.service" "plymouth-vista-slow-boot-animation.service")
 SKIP_QUESTION=0
 OLD_THEME_NOT_FOUND=0
 

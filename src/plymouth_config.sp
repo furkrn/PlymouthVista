@@ -172,6 +172,13 @@ global.UseNoGuiResume = 1;
 //"Resuming Windows..."
 global.NoGuiResumeText = "Resuming Windows...";
 
+//Slows down your boot in seconds.
+//Works when the plymouth-vista-slow-boot-animation.service is enabled.
+//If you don't want to slow down your boot, keep this value as 0.
+//Default value:
+//0
+global.BootSlowdown = 0;
+
 // Want to make your own Windows 9, see this:
 // https://crustywindo.ws/w/images/2/2a/Dilshad9-Boot.png
 
