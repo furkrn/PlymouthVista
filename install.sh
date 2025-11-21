@@ -4,6 +4,7 @@ USER_SYSTEMD_SERVICES="$(pwd)/systemd/user"
 SYSTEM_SYSTEMD_SERVICES="$(pwd)/systemd/system"
 HIBERNATE_SYSTEMD_SERVICES="$(pwd)/systemd/hibernation"
 SLOWDOWN_SYSTEMD_SERVICES="$(pwd)/systemd/slowdown"
+NO_WALL_SYSTEMD_SERVICES="$(pwd)/systemd/no-wall"
 INSTALL_DIR="/usr/share/plymouth/themes/PlymouthVista"
 HAS_SYSTEMD=1
 COMPILED_SCRIPT="$(pwd)/PlymouthVista.script"
@@ -183,13 +184,13 @@ fi
 if [[ $SKIP_CONF == 0 ]]; then
     read -p "Would you like to use the Windows 7 mode instead of the Windows Vista mode (y/N): " THEMESETTING
     if [[ $THEMESETTING != "${THEMESETTING#[Yy]}" ]]; then
-        ./pv_conf.sh -s UseLegacyBootScreen -v 0 -i $COMPILED_SCRIPT
-        ./pv_conf.sh -s UseShadow -v 1 -i $COMPILED_SCRIPT
-        ./pv_conf.sh -s AuthuiStyle -v 7 -i $COMPILED_SCRIPT
+        ./pv_conf.sh -s UseLegacyBootScreen -v 0 -i "$COMPILED_SCRIPT"
+        ./pv_conf.sh -s UseShadow -v 1 -i "$COMPILED_SCRIPT"
+        ./pv_conf.sh -s AuthuiStyle -v 7 -i "$COMPILED_SCRIPT"
     else
-        ./pv_conf.sh -s UseLegacyBootScreen -v 1 -i $COMPILED_SCRIPT
-        ./pv_conf.sh -s UseShadow -v 0 -i $COMPILED_SCRIPT
-        ./pv_conf.sh -s AuthuiStyle -v vista -i $COMPILED_SCRIPT
+        ./pv_conf.sh -s UseLegacyBootScreen -v 1 -i "$COMPILED_SCRIPT"
+        ./pv_conf.sh -s UseShadow -v 0 -i "$COMPILED_SCRIPT"
+        ./pv_conf.sh -s AuthuiStyle -v vista -i "$COMPILED_SCRIPT"
     fi
 
     echo "Do you want fade in effects in shutdown?"
@@ -208,20 +209,23 @@ if [[ $SKIP_CONF == 0 ]]; then
         INPUT=0;
     fi
 
-    ./pv_conf.sh -s Pref -v $INPUT -i $COMPILED_SCRIPT
+    ./pv_conf.sh -s Pref -v "$INPUT" -i "$COMPILED_SCRIPT"
 
     if [ "$HAS_SYSTEMD" == 1 ]; then
         read -p "Do you want to enable hibernation features? (y/N): " ANSWER
         if [[ $ANSWER != "${ANSWER#[Yy]}" ]]; then
-            ./pv_conf.sh -s UseHibernation -v 1 -i $COMPILED_SCRIPT
+            ./pv_conf.sh -s UseHibernation -v 1 -i "$COMPILED_SCRIPT"
         fi
 
         read -p "Do you want to slow down your boot? (y/N): " ANSWER
         if [[ $ANSWER != "${ANSWER#[Yy]}" ]]; then
             askSlowdownQuestion timeout && ./pv_conf.sh -s BootSlowdown -v $timeout -i $COMPILED_SCRIPT
         else
-            ./pv_conf.sh -s BootSlowdown -v 0 -i $COMPILED_SCRIPT
+            ./pv_conf.sh -s BootSlowdown -v 0 -i "$COMPILED_SCRIPT"
         fi
+
+        read -p "Would you like to disable wall messages (y/N) " ANSWER
+        ./pv_conf.sh -s DisableWall -v "${[[ $ANSWER != "${ANSWER#[Yy]}" ]] && 1 || 0}" -i $COMPILED_SCRIPT
     else
         echo "Skipping the hibernation and slowing down the boot questions. These features rely on systemd."
     fi
@@ -268,26 +272,34 @@ if [[ "$HAS_SYSTEMD" == 1 ]]; then
     if [[ $(./pv_conf.sh -g Pref) == 1 ]]; then
         chmod 777 $INSTALL_DIR/PlymouthVista.script
         echo "Installing fade services..."
-        installSystemdServices $SYSTEM_SYSTEMD_SERVICES 0
-        installSystemdServices $USER_SYSTEMD_SERVICES 1
+        installSystemdServices "$SYSTEM_SYSTEMD_SERVICES" 0
+        installSystemdServices "$USER_SYSTEMD_SERVICES" 1
     else
         echo "Uninstalling fade services if they are still present..."
-        tryUninstallSystemdServices $SYSTEM_SYSTEMD_SERVICES 0
-        tryUninstallSystemdServices $USER_SYSTEMD_SERVICES 1
+        tryUninstallSystemdServices "$SYSTEM_SYSTEMD_SERVICES" 0
+        tryUninstallSystemdServices "$USER_SYSTEMD_SERVICES" 1
     fi
 
     if [[ $(./pv_conf.sh -g UseHibernation) == 1 ]]; then
         chmod 777 $INSTALL_DIR/PlymouthVista.script
         echo "Installing hibernation services..."
-        installSystemdServices $HIBERNATE_SYSTEMD_SERVICES 0
+        installSystemdServices "$HIBERNATE_SYSTEMD_SERVICES" 0
     else
         echo "Uninstalling hibernation services if they are still present..."
-        tryUninstallSystemdServices $HIBERNATE_SYSTEMD_SERVICES 0
+        tryUninstallSystemdServices "$HIBERNATE_SYSTEMD_SERVICES" 0
     fi
 
     if [[ $(./pv_conf.sh -g BootTime) != 0 ]]; then
         echo "Installing boot slow down systemd services..."
-        installSystemdServices $SLOWDOWN_SYSTEMD_SERVICES 0
+        installSystemdServices "$SLOWDOWN_SYSTEMD_SERVICES" 0
+    fi
+
+    if [[ $(./pv_conf.sh -g DisableWall) == 1 ]]; then
+        echo "Installing no wall services..."
+        installSystemdServices "$NO_WALL_SYSTEMD_SERVICES" 0
+    else
+        echo "Uninstall no wall services if they are still present..."
+        tryUninstallSystemdServices "$NO_WALL_SYSTEMD_SERVICES" 0
     fi
 
 fi

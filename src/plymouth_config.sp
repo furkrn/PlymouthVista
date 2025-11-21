@@ -42,6 +42,13 @@ global.Pref = 1;
 //2: Uninstall hibernation services, if they are present.
 global.UseHibernation = 0;
 
+//Defined whether annoying wall messages should be disabled or not.
+//This value is only read by `install.sh` to add/remove no-wall services.
+//Accepted values:
+//0: Keep wall messages.
+//1: Disable wall messages.
+global.DisableWall = 1;
+
 //Title of the password screen
 //Prerequisites:
 //Must be a single line of text,

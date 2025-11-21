@@ -73,6 +73,14 @@ Defines whether hibernation should be used or not.
 - `1`: Install hibernation services,
 - `2`: Uninstall hibernation services, if they are present.
 
+### DisableWall:
+Defined whether annoying wall messages should be disabled or not.
+**This value is only read by `install.sh` to add/remove no-wall services.**
+
+##### Accepted values:
+- `0`: Keep wall messages.
+- `1`:  Disable wall messages.
+
 ### PasswordTitle:
 Title of the password screen
 ##### Prerequisites:
