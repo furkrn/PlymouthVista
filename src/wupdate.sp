@@ -70,7 +70,10 @@ fun UpdateScreenNew() {
         self.BaseSprite.SetOpacity(1);
         self.BrandingSprite.SetOpacity(1);
         self.CurrentTextSprite.SetOpacity(1);
-        self.CurrentShadowSprite.SetOpacity(1);
+        if (global.UseShadow) {
+            self.CurrentShadowSprite.SetOpacity(1);
+        }
+
         self.DrawSpinners(self);
     }
 
