@@ -149,9 +149,9 @@ else
 fi
 
 if command -v plymouth-set-default-theme >/dev/null 2>&1; then
-    USE_LEGACY=1
+    DEBIAN_INSTALL=0
 elif command -v update-alternatives >/dev/null 2>&1; then
-    USE_LEGACY=0
+    DEBIAN_INSTALL=1
 else
     echo "No supported Plymouth theme manager found."
     exit 2
@@ -162,7 +162,7 @@ if [[ ! -f $COMPILED_SCRIPT ]]; then
     exit 1
 fi
 
-if [[ $USE_LEGACY == 1 ]]; then
+if [[ $DEBIAN_INSTALL == 0 ]]; then
     plymouth-set-default-theme --list 2>/dev/null | grep -q "PlymouthVista"
     INSTALLED=$?
 else
@@ -317,7 +317,7 @@ fi
 if [[ $NO_APPLY == 0 ]]; then
     echo "Setting plymouth theme as default..."
 
-    if [[ $USE_LEGACY == 1 ]]; then
+    if [[ $DEBIAN_INSTALL == 0 ]]; then
         plymouth-set-default-theme -R PlymouthVista
     else
         update-alternatives --install \
