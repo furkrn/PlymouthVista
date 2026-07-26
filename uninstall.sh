@@ -21,8 +21,12 @@ if [[ $EUID != 0 ]]; then
     exit 2
 fi
 
-if [[ -z $(command -v plymouth-set-default-theme) ]]; then
-    echo "plymouth-set-default-theme isn't installed, exitting..."s
+if command -v plymouth-set-default-theme >/dev/null 2>&1; then
+    DEBIAN_INSTALL=0
+elif command -v update-alternatives >/dev/null 2>&1; then
+    DEBIAN_INSTALL=1
+else
+    echo "No supported Plymouth theme manager found."
     exit 2
 fi
 
@@ -50,9 +54,16 @@ else
     echo "WARNING: pv_conf.sh isn't found, your Plymouth theme will set to '$OLD_THEME' instead"
 fi
 
-if ! plymouth-set-default-theme --list | grep -qe "$OLD_THEME"; then
-    echo "WARNING: '$OLD_THEME' isn't a valid Plymouth theme. Your Plymouth theme configuration will reset to default instead."
-    OLD_THEME_NOT_FOUND=1
+if [[ $DEBIAN_INSTALL == 0 ]]; then
+    if ! plymouth-set-default-theme --list | grep -qe "$OLD_THEME"; then
+        echo "WARNING: '$OLD_THEME' isn't a valid Plymouth theme. Your Plymouth theme configuration will reset to default instead."
+        OLD_THEME_NOT_FOUND=1
+    fi
+else
+    if update-alternatives --display default.plymouth | grep -qe "$OLD_THEME"; then
+        echo "WARNING: '$OLD_THEME' isn't a valid Plymouth theme. Your Plymouth theme configuration will reset to default instead."
+        OLD_THEME_NOT_FOUND=1
+    fi
 fi
 
 if [[ $OLD_THEME == "PlymouthVista" ]]; then
@@ -76,10 +87,26 @@ chmod +x ./readplyconf.sh
 if [[ $(./readplyconf.sh "Theme") == "PlymouthVista" ]]; then
     if [[ $OLD_THEME_NOT_FOUND == 1 ]]; then
         echo "Resetting Plymouth theme configuration ..."
-        plymouth-set-default-theme -Rr
+        if [[ $DEBIAN_INSTALL == 0 ]]; then
+            plymouth-set-default-theme -Rr
+        else
+            update-alternatives --install \
+                /usr/share/plymouth/themes/default.plymouth \
+                default.plymouth \
+                /usr/share/plymouth/themes/"$OLD_THEME"/"$OLD_THEME".plymouth 200
+
+            update-alternatives --set default.plymouth \
+                /usr/share/plymouth/themes/"$OLD_THEME"/"$OLD_THEME".plymouth
+
+            update-initramfs -u
+        fi
     else
         echo "Changing Plymouth theme to $OLD_THEME."
-        plymouth-set-default-theme -R $OLD_THEME
+        if [[ $DEBIAN_INSTALL == 0 ]]; then
+            plymouth-set-default-theme -R $OLD_THEME
+        else
+            update-initramfs -u
+        fi
     fi
 fi
 
