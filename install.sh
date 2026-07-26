@@ -148,8 +148,12 @@ else
     chmod +x ./pv_conf.sh
 fi
 
-if [[ -z "$(command -v plymouth-set-default-theme)" ]]; then
-    echo "Plymouth-scripts package is not installed! Stopping."
+if command -v plymouth-set-default-theme >/dev/null 2>&1; then
+    DEBIAN_INSTALL=0
+elif command -v update-alternatives >/dev/null 2>&1; then
+    DEBIAN_INSTALL=1
+else
+    echo "No supported Plymouth theme manager found."
     exit 2
 fi
 
@@ -158,7 +162,15 @@ if [[ ! -f $COMPILED_SCRIPT ]]; then
     exit 1
 fi
 
-if plymouth-set-default-theme --list | grep -qe "PlymouthVista" || [ -d $INSTALL_DIR ]; then
+if [[ $DEBIAN_INSTALL == 0 ]]; then
+    plymouth-set-default-theme --list 2>/dev/null | grep -q "PlymouthVista"
+    INSTALLED=$?
+else
+    update-alternatives --display default.plymouth 2>/dev/null | grep -q "PlymouthVista"
+    INSTALLED=$?
+fi
+
+if [[ $INSTALLED -eq 0 ]] || [ -d "$INSTALL_DIR" ]; then
     if [[ $OVERWRITE == 0 ]]; then
         read -p "PlymouthVista is already installed, Do you want to overwrite it? (y/N): " ANSWER
         if [[ $ANSWER == "${ANSWER#[Yy]}" ]]; then
@@ -304,6 +316,20 @@ fi
 
 if [[ $NO_APPLY == 0 ]]; then
     echo "Setting plymouth theme as default..."
-    plymouth-set-default-theme -R PlymouthVista
+
+    if [[ $DEBIAN_INSTALL == 0 ]]; then
+        plymouth-set-default-theme -R PlymouthVista
+    else
+        update-alternatives --install \
+            /usr/share/plymouth/themes/default.plymouth \
+            default.plymouth \
+            /usr/share/plymouth/themes/PlymouthVista/PlymouthVista.plymouth 200
+
+        update-alternatives --set default.plymouth \
+            /usr/share/plymouth/themes/PlymouthVista/PlymouthVista.plymouth
+
+        update-initramfs -u
+    fi
 fi
+
 echo "Done."
